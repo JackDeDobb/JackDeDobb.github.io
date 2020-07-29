@@ -20,7 +20,7 @@ async function init() {
 
   Promise.all([
     d3.csv('https://jaceaser.github.io/data.csv')
-  ]).then(d => chart(d, 1960))
+  ]).then(files => chart(files[0], 1960))
 
   d3.selectAll('img').on('click', handleYearChange);
 }
