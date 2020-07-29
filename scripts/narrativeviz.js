@@ -20,7 +20,7 @@ async function init() {
 
   const data = await d3.csv('https://jaceaser.github.io/data.csv').then(d => chart(d, 1960))
 
-  d3.selectAll("img").on("click", handleYearChange);
+  d3.selectAll('img').on('click', handleYearChange);
 }
 
 function chart(csv, filterYear) {
@@ -55,31 +55,22 @@ function update(input, speed) {
 
   x.domain([0, d3.max(data, d => d.total)]).nice();
 
-  svg.selectAll(".x-axis").transition().duration(speed)
-  .call(d3.axisTop(x).ticks(null, "s"))
+  svg.selectAll(".x-axis").transition().duration(speed).call(d3.axisTop(x).ticks(null, "s"));
 
   data.sort((a, b) => b.total - a.total);
 
   y.domain(data.map(d => d.lexeme));
 
-  svg.selectAll(".y-axis").transition().duration(speed)
-  .call(d3.axisLeft(y).tickSizeOuter(0))
+  svg.selectAll(".y-axis").transition().duration(speed).call(d3.axisLeft(y).tickSizeOuter(0));
 
-  var group = svg.selectAll("g.layer")
-  .data(d3.stack().keys(keys)(data), d => d.key)
-
+  var group = svg.selectAll("g.layer").data(d3.stack().keys(keys)(data), d => d.key);
   group.exit().remove()
-
   group.enter().insert("g", ".y-axis").append("g")
-  .classed("layer", true)
-  .attr("fill", function (d) {return z(d.key)});
+                                      .classed("layer", true)
+                                      .attr("fill", function (d) {return z(d.key)});
 
-  var bars = svg.selectAll("g.layer").selectAll("rect")
-  .data(d => d, function (e) {return e.data.lexeme;})
-
+  var bars = svg.selectAll("g.layer").selectAll("rect").data(d => d, function (e) { return e.data.lexeme; });
   bars.exit().remove();
-
-
   bars.enter().append("rect")
               .attr("height", y.bandwidth())
               .merge(bars)
@@ -112,7 +103,7 @@ function handleYearChange() {
 }
 
 function tooltipleave() {
-  tooltip.transition().duration(200).style("opacity", 0);
+  tooltip.transition().duration(200).style('opacity', 0);
 }
 
 function tooltiphover(d) {
