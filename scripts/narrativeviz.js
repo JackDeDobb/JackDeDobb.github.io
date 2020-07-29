@@ -85,18 +85,10 @@ function update(input, speed) {
 function handleYearChange() {
   var id = this.id
 
-  // show disabled
   d3.selectAll('img').each(function() {
-    if (this.id != id) {
-      d3.select(this).style("opacity", ".5");
-    }
-  });
+    d3.select(this).style('opacity', (this.id == id)? "1" : ".5")
+                   .style('border', ((this.id == id)? "4px solid green" : "4px solid blue"));
 
-  // highlight selected image
-  d3.selectAll('img').each(function() {
-    if (this.id == id) {
-      d3.select(this).style("opacity", "1");
-    }
   });
 
   update(id, 750);
