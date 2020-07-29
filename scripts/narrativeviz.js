@@ -18,7 +18,9 @@ async function init() {
                              .style('font-size', '16px')
                              .attr('class', 'tooltip');
 
-  const data = await d3.csv('https://jaceaser.github.io/data.csv').then(d => chart(d, 1960))
+  Promise.all([
+    d3.csv('https://jaceaser.github.io/data.csv')
+  ]).then(d => chart(d, 1960))
 
   d3.selectAll('img').on('click', handleYearChange);
 }
