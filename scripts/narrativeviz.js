@@ -1,14 +1,17 @@
+var dataMap = {};
 var margin;
 var width;
 var height;
+var tooltip;
 var x;
 var y;
 var z;
 var keys;
 var _csv;
-var tooltip;
+
 
 async function init() {
+  var startingDataYear = 2010;
   margin = { top: 50, right: 100, bottom: 80, left: 50 };
   width = 960 - margin.left - margin.right;
   height = 650 - margin.top - margin.bottom;
@@ -18,9 +21,15 @@ async function init() {
                              .style('font-size', '16px')
                              .attr('class', 'tooltip');
 
-  Promise.all([
-    d3.csv('https://jaceaser.github.io/data.csv')
-  ]).then(files => chart(files[0], 1960))
+  var csvFiles = [...Array(10).keys()].map(i => 'https://jackdedobb.github.io/data/' + (i + startingDataYear) + 'Passing.csv')
+  Promise.all(csvFiles).then(function(files) {
+    files.forEach(function(file, idx) {
+      dataMap[idx + startingDataYear] = file;
+    });
+
+    //TODO: call own function
+    console.log(dataMap);
+  });
 
   d3.selectAll('img').on('click', handleYearChange);
 }
