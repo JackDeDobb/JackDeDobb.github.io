@@ -15,7 +15,7 @@ async function init() {
 
   tooltip = d3.select('body').append('div')
                              .style('opacity', 0)
-                             .style('font-size', "16px")
+                             .style('font-size', '16px')
                              .attr('class', 'tooltip');
 
   const data = await d3.csv('https://jaceaser.github.io/data.csv').then(d => chart(d, 1960))
@@ -27,7 +27,7 @@ function chart(csv, filterYear) {
   keys = csv.columns.slice(2);
   _csv = csv;
 
-  var svg = d3.select("#treemap"), margin = {top: 35, left: 90, bottom: 0, right: 15}, width = +svg.attr("width"), height = +svg.attr("height");
+  var svg = d3.select('#treemap'), margin = { top: 35, left: 90, bottom: 0, right: 15 }, width = +svg.attr('width'), height = +svg.attr('height');
 
   y = d3.scaleBand().range([margin.top, height - margin.bottom])
                     .padding(0.1)
@@ -36,16 +36,16 @@ function chart(csv, filterYear) {
 
   x = d3.scaleLinear().range([margin.left, width - margin.right])
 
-  svg.append("g").attr("transform", `translate(${margin.left},0)`).attr("class", "y-axis");
-  svg.append("g").attr("transform", `translate(0,${margin.top})`).attr("class", "x-axis");
+  svg.append('g').attr('transform', `translate(${margin.left},0)`).attr("class", "y-axis");
+  svg.append('g').attr('transform', `translate(0,${margin.top})`).attr("class", "x-axis");
 
-  z = d3.scaleOrdinal().range(["red", "steelblue"]).domain(keys);
+  z = d3.scaleOrdinal().range(['red', 'steelblue']).domain(keys);
 
   update(filterYear, 0)
 }
 
 function update(input, speed) {
-  var svg = d3.select("#treemap");
+  var svg = d3.select('#treemap');
   var data = (input != null)? _csv.filter(f => f.year == input) : _csv;
 
   data.forEach(function(d) {
@@ -74,7 +74,6 @@ function update(input, speed) {
   bars.enter().append("rect")
               .attr("height", y.bandwidth())
               .merge(bars)
-              .on("mousemove", tooltiphover)
               .on("mouseout", tooltipleave)
               .transition().duration(speed)
               .attr("y", d => y(d.data.lexeme))
@@ -83,40 +82,14 @@ function update(input, speed) {
 }
 
 function handleYearChange() {
-  var id = this.id
-
+  var id = this.id;
   d3.selectAll('img').each(function() {
-    d3.select(this).style('opacity', (this.id == id)? "1" : ".5")
-                   .style('border', ((this.id == id)? "4px solid green" : "4px solid blue"));
-
+    d3.select(this).style('opacity', (this.id == id)? '1' : '.5')
+                   .style('border', ((this.id == id)? '4px solid orange' : '4px solid blue'));
   });
-
   update(id, 750);
 }
 
 function tooltipleave() {
   tooltip.transition().duration(200).style('opacity', 0);
-}
-
-function tooltiphover(d) {
-  var frequency;
-  if (d[0] == 0 && d[1] == d.data.Republican) {
-    frequency = d.data.Republican;
-
-    tooltip.style("opacity", 1)
-           .style("left", (d3.event.pageX+30) + "px")
-           .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:red'>" + frequency);
-  } else if (d[0] != 0) {
-    frequency = d.data.Democrat;
-
-    tooltip.style("opacity", 1)
-           .style("left", (d3.event.pageX+30) + "px")
-           .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:steelblue'>" + frequency);
-  } else if (d[0] == 0 && d[1] == d.data.Democrat) {
-    frequency = d.data.Democrat;
-
-    tooltip.style("opacity", 1)
-           .style("left", (d3.event.pageX+30) + "px")
-           .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:steelblue'>" + frequency);
-  }
 }
