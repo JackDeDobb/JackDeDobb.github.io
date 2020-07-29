@@ -85,7 +85,7 @@ function handleYearChange() {
   var id = this.id;
   d3.selectAll('img').each(function() {
     d3.select(this).style('opacity', (this.id == id)? '1' : '.5')
-                   .style('border', ((this.id == id)? '12px solid red' : '4px solid black'));
+                   .style('border', ((this.id == id)? '8px solid green' : '4px solid black'));
   });
   update(id, 750);
 }
