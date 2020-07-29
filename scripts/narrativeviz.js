@@ -46,7 +46,7 @@ function chart(csv, filterYear) {
 
 function update(input, speed) {
   var svg = d3.select("#treemap");
-  var data = input != null ? _csv.filter(f => f.year == input) : _csv;
+  var data = (input != null)? _csv.filter(f => f.year == input) : _csv;
 
   data.forEach(function(d) {
     d.total = d3.sum(keys, k => +d[k])
@@ -85,15 +85,15 @@ function update(input, speed) {
 function handleYearChange() {
   var id = this.id
 
-  //show disabled
-  d3.selectAll("img").each(function() {
+  // show disabled
+  d3.selectAll('img').each(function() {
     if (this.id != id) {
-      d3.select(this).style("opacity", ".1");
+      d3.select(this).style("opacity", ".5");
     }
   });
 
-  //highlight selected image
-  d3.selectAll("img").each(function() {
+  // highlight selected image
+  d3.selectAll('img').each(function() {
     if (this.id == id) {
       d3.select(this).style("opacity", "1");
     }
