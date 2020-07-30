@@ -1,11 +1,11 @@
 var dataMap = {};
+var currYear;
+var currXAxisVariable;
+var currYAxisVariable;
 var margin;
 var width;
 var height;
 var tooltip;
-var x;
-var y;
-var z;
 
 
 async function init() {
@@ -32,9 +32,6 @@ async function init() {
 
 function renderGraphs(year) {
   var svg = d3.select('#treemap'), margin = { top: 35, left: 90, bottom: 0, right: 15 }, width = +svg.attr('width'), height = +svg.attr('height');
-  x = d3.scaleLinear().range([margin.left, width - margin.right]);
-  y = d3.scaleBand().range([margin.top, height - margin.bottom]).padding(0.1).paddingOuter(0.2).paddingInner(0.2);
-  // z = d3.scaleOrdinal().range(['red', 'steelblue']).domain(keys);
 
   svg.append('g').attr('transform', `translate(${margin.left},0)`).attr('class', 'y-axis');
   svg.append('g').attr('transform', `translate(0,${margin.top})`).attr('class', 'x-axis');
@@ -43,12 +40,13 @@ function renderGraphs(year) {
 }
 
 function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
-  var svg = d3.select('#treemap');
+  currYear = year || currYear;
+  currXAxisVariable = xAxisVariable || currXAxisVariable;
+  currYAxisVariable = yAxisVariable || currYAxisVariable;
+
   var dataForYear = dataMap[year];
-
-  var xDataPoints = dataForYear.map(x => parseInt(x[xAxisVariable]));
-  var yDataPoints = dataForYear.map(x => parseInt(x[yAxisVariable]));
-
+  var xDataPoints = dataForYear.map(x => parseInt(x[currXAxisVariable]));
+  var yDataPoints = dataForYear.map(x => parseInt(x[currYAxisVariable]));
 
   var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([0,500]);
   var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([500,0]);
@@ -57,10 +55,9 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   d3.select('svg').append('g')
                   .attr('transform', 'translate(50,50)')
                   .selectAll().data(dataForYear).enter().append('circle')
-                                                  .attr('cx', x => xAxisScale(parseInt(x[xAxisVariable])))
-                                                  .attr('cy', x => yAxisScale(parseInt(x[yAxisVariable])))
+                                                  .attr('cx', x => xAxisScale(parseInt(x[currXAxisVariable])))
+                                                  .attr('cy', x => yAxisScale(parseInt(x[currYAxisVariable])))
                                                   .attr('r', x => (8));
-
 
   d3.selectAll('g').filter(function() {
     return d3.select(this).attr('class') === 'tick';
@@ -98,6 +95,7 @@ function handleYearChange() {
 function handleDropDown(xAxis, value) {
   console.log(xAxis);
   console.log(value);
+  updateGraphs(null, xAxis? value : null, xAxis? null : value, 750);
 
 }
 
