@@ -135,6 +135,8 @@ function handleDropDown(xAxis, value) {
 }
 
 function swapAxes() {
+  document.getElementById("xAxisDropDown").value = currYAxisVariable;
+  document.getElementById("yAxisDropDown").value = currXAxisVariable;
   updateGraphs(null, currYAxisVariable, currXAxisVariable, 750);
 }
 
