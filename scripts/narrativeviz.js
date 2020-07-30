@@ -65,9 +65,12 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   var dataForYear = dataMap[currYear];
   var xDataPoints = dataForYear.map(x => parseFloat(x[currXAxisVariable]));
   var yDataPoints = dataForYear.map(x => parseFloat(x[currYAxisVariable]));
+  var rankDataPoints = dataForYear.map(x => parseFloat(parseInt(x['Rk'])));
 
   var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([0,500]);
   var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([500,0]);
+  var colorScale = d3.scaleQuantile().domain(rankDataPoints).range(['#0A2F51', '#0E4D64', '#137177', '#188977', '#1D9A6C', '#39A96B', '#56B870', '#74C67A', '#99D492', '#BFE1B0', '#DEEDCF']);
+
 
   // Remove Previous
   d3.selectAll('circle').remove();
@@ -81,7 +84,8 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .selectAll().data(dataForYear).enter().append('circle')
                                                   .attr('cx', x => xAxisScale(parseFloat(x[currXAxisVariable])))
                                                   .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
-                                                  .attr('r', x => (8));
+                                                  .attr('r', x => (8))
+                                                  .style('fill', x => colorScale(parseInt(x['Rk'])));
 
   d3.select('svg').append('g')
                   .attr('transform', 'translate(75,50)')
