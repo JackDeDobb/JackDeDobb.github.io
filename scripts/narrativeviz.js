@@ -67,7 +67,10 @@ function updateGraphs(year, speed) {
 
 
   d3.selectAll('g').filter(function() {
-    return d3.select(this).attr("class") === 'tick';
+    return d3.select(this).attr('class') === 'tick';
+  }).remove();
+  d3.selectAll('path').filter(function() {
+    return d3.select(this).attr('class') === 'domain';
   }).remove();
 
   d3.select('svg').append('g')
@@ -76,7 +79,7 @@ function updateGraphs(year, speed) {
                   .attr('font-size', 10)
                   .attr('font-family', 'sans-serif')
                   .attr('text-anchor', 'middle').call(d3.axisLeft(yAxisScale))
-                                                .attr('transform', 'translate(50,50)');
+                                                .attr('transform', 'translate(39,50)');
 
   d3.select('svg').append('g')
                   .attr('transform', 'translate(50,50)')
@@ -84,7 +87,7 @@ function updateGraphs(year, speed) {
                   .attr('font-size', 10)
                   .attr('font-family', 'sans-serif')
                   .attr('text-anchor', 'middle').call(d3.axisBottom(xAxisScale))
-                                                .attr('transform', 'translate(50,560)');
+                                                .attr('transform', 'translate(50,561)');
 }
 
 function handleYearChange() {
