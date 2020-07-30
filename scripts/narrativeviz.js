@@ -95,6 +95,12 @@ function handleYearChange() {
   updateGraphs(id, 'TD', 'Yds', 750);
 }
 
+function handleDropDown(xAxis, value) {
+  console.log(xAxis);
+  console.log(value);
+
+}
+
 function tooltipleave() {
   tooltip.transition().duration(200).style('opacity', 0);
 }

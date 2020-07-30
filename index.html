@@ -55,7 +55,7 @@
   </div>
   <p>
     <label>X-Axis:</label>
-    <select id="xAxisDropDown">
+    <select id="xAxisDropDown" onmousedown="this.value='';" onchange="handleDropDown(true, this.value);">
       <option value="G">Games Played</option>
       <option value="GS">Games Started</option>
       <option value="Cmp">Completions</option>
@@ -76,8 +76,8 @@
       <option value="4QC">4Q Comebacks</option>
       <option value="GWD">Game Winning Drives</option>
     </select>
-    <label>     Y-Axis:</label>
-    <select id="xAxisDropDown">
+    <label>Y-Axis:</label>
+    <select id="yAxisDropDown" onmousedown="this.value='';" onchange="handleDropDown(false, this.value);">
       <option value="G">Games Played</option>
       <option value="GS">Games Started</option>
       <option value="Cmp">Completions</option>
