@@ -89,7 +89,7 @@ function handleYearChange() {
     d3.select(this).style('opacity', (this.id == id)? '1' : '.5')
                    .style('border', ((this.id == id)? '8px solid green' : '4px solid black'));
   });
-  updateGraphs(id, 'TD', 'Yds', 750);
+  updateGraphs(id, null, null, 750);
 }
 
 function handleDropDown(xAxis, value) {
