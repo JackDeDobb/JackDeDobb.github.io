@@ -39,16 +39,12 @@ function renderGraphs(year) {
   svg.append('g').attr('transform', `translate(${margin.left},0)`).attr('class', 'y-axis');
   svg.append('g').attr('transform', `translate(0,${margin.top})`).attr('class', 'x-axis');
 
-  updateGraphs(year, 0);
+  updateGraphs(year, 'TD', 'Yds', 0);
 }
 
-function updateGraphs(year, speed) {
+function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   var svg = d3.select('#treemap');
   var dataForYear = dataMap[year];
-
-
-  var xAxisVariable = 'TD';
-  var yAxisVariable = 'Yds';
 
   var xDataPoints = dataForYear.map(x => parseInt(x[xAxisVariable]));
   var yDataPoints = dataForYear.map(x => parseInt(x[yAxisVariable]));
@@ -96,7 +92,7 @@ function handleYearChange() {
     d3.select(this).style('opacity', (this.id == id)? '1' : '.5')
                    .style('border', ((this.id == id)? '8px solid green' : '4px solid black'));
   });
-  updateGraphs(id, 750);
+  updateGraphs(id, 'TD', 'Yds', 750);
 }
 
 function tooltipleave() {
