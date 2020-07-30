@@ -47,14 +47,15 @@ function updateGraphs(year, speed) {
   var dataForYear = dataMap[year];
 
 
-  var xAxisVariable = 'Yds';
-  var yAxisVariable = 'TD';
+  var xAxisVariable = 'TD';
+  var yAxisVariable = 'Yds';
 
   var xDataPoints = dataForYear.map(x => parseInt(x[xAxisVariable]));
   var yDataPoints = dataForYear.map(x => parseInt(x[yAxisVariable]));
 
-  var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([500,0]);
-  var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([0,500]);
+
+  var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([0,500]);
+  var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([500,0]);
 
   d3.selectAll('circle').remove();
   d3.select('svg').append('g')
@@ -63,6 +64,27 @@ function updateGraphs(year, speed) {
                                                   .attr('cx', x => xAxisScale(parseInt(x[xAxisVariable])))
                                                   .attr('cy', x => yAxisScale(parseInt(x[yAxisVariable])))
                                                   .attr('r', x => (8));
+
+
+  d3.selectAll('g').filter(function() {
+    return d3.select(this).attr("class") === 'tick';
+  }).remove();
+
+  d3.select('svg').append('g')
+                  .attr('transform', 'translate(50,50)')
+                  .attr('fill', 'none')
+                  .attr('font-size', 10)
+                  .attr('font-family', 'sans-serif')
+                  .attr('text-anchor', 'middle').call(d3.axisLeft(yAxisScale))
+                                                .attr('transform', 'translate(50,50)');
+
+  d3.select('svg').append('g')
+                  .attr('transform', 'translate(50,50)')
+                  .attr('fill', 'none')
+                  .attr('font-size', 10)
+                  .attr('font-family', 'sans-serif')
+                  .attr('text-anchor', 'middle').call(d3.axisBottom(xAxisScale))
+                                                .attr('transform', 'translate(50,560)');
 }
 
 function handleYearChange() {
