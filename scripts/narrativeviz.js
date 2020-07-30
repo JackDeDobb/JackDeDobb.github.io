@@ -46,15 +46,23 @@ function updateGraphs(year, speed) {
   var svg = d3.select('#treemap');
   var dataForYear = dataMap[year];
 
-  var yardsScale = d3.scaleLog().domain([10,150]).range([200,0]);
-  var touchDownsScale = d3.scaleLog().domain([10,150]).range([0,200]);
 
+  var xAxisVariable = 'Yds';
+  var yAxisVariable = 'TD';
+
+  var xDataPoints = dataForYear.map(x => parseInt(x[xAxisVariable]));
+  var yDataPoints = dataForYear.map(x => parseInt(x[yAxisVariable]));
+
+  var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([500,0]);
+  var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([0,500]);
+
+  d3.selectAll('circle').remove();
   d3.select('svg').append('g')
                   .attr('transform', 'translate(50,50)')
                   .selectAll().data(dataForYear).enter().append('circle')
-                                                  .attr('cx', x => yardsScale(parseInt(x.Yds)))
-                                                  .attr('cy', x => touchDownsScale(parseInt(x.TD)))
-                                                  .attr('r', x => (4));
+                                                  .attr('cx', x => xAxisScale(parseInt(x[xAxisVariable])))
+                                                  .attr('cy', x => yAxisScale(parseInt(x[yAxisVariable])))
+                                                  .attr('r', x => (8));
 }
 
 function handleYearChange() {
