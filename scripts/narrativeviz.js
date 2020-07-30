@@ -107,7 +107,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   d3.select('svg').append("text")
                   .attr("transform", "rotate(-90)")
                   .attr("y", 0)
-                  .attr("x",0 - (height / 2))
+                  .attr("x",0 - (height / 2) - 30)
                   .attr("dy", "1em")
                   .style("text-anchor", "middle")
                   .text(uiOutput[currYAxisVariable]);
