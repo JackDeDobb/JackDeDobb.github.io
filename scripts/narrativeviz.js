@@ -1,3 +1,21 @@
+const uiOutput = {
+  'G': 'Games Played',
+  'GS': 'Games Started',
+  'Cmp': 'Completions',
+  'Att': 'Attempts',
+  'Cmp%': 'Completion %',
+  'Yds': 'Yards',
+  'TD': 'TouchDowns',
+  'TD%': 'TouchDowns %',
+  'Int': 'Interceptions',
+  'Int%': 'Interceptions %',
+  '1D': 'First Downs',
+  'Lng': 'Longest Pass',
+  'Y/A': 'Yards / Attempt',
+  'Y/G': 'Yards / Game',
+  'Rate': 'Rating',
+  'Sk': 'Sacks'
+};
 var dataMap = {};
 var currYear;
 var currXAxisVariable;
@@ -51,20 +69,19 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([0,500]);
   var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([500,0]);
 
+  // Remove Previous
   d3.selectAll('circle').remove();
+  d3.selectAll('text').remove();
+  d3.selectAll('g').filter(function() { return d3.select(this).attr('class') === 'tick'; }).remove();
+  d3.selectAll('path').filter(function() { return d3.select(this).attr('class') === 'domain'; }).remove();
+
+
   d3.select('svg').append('g')
                   .attr('transform', 'translate(50,50)')
                   .selectAll().data(dataForYear).enter().append('circle')
                                                   .attr('cx', x => xAxisScale(parseFloat(x[currXAxisVariable])))
                                                   .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
                                                   .attr('r', x => (8));
-
-  d3.selectAll('g').filter(function() {
-    return d3.select(this).attr('class') === 'tick';
-  }).remove();
-  d3.selectAll('path').filter(function() {
-    return d3.select(this).attr('class') === 'domain';
-  }).remove();
 
   d3.select('svg').append('g')
                   .attr('transform', 'translate(50,50)')
@@ -81,6 +98,19 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr('font-family', 'sans-serif')
                   .attr('text-anchor', 'middle').call(d3.axisBottom(xAxisScale))
                                                 .attr('transform', 'translate(50,561)');
+
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + ((width / 2) - 80) + " ," + (height + margin.bottom) + ")")
+                  .style("text-anchor", "middle")
+                  .text(uiOutput[currXAxisVariable]);
+
+  d3.select('svg').append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 0 - margin.left)
+                  .attr("x",0 - (height / 2))
+                  .attr("dy", "1em")
+                  .style("text-anchor", "middle")
+                  .text(uiOutput[currYAxisVariable]);
 }
 
 function handleYearChange() {
