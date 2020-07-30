@@ -100,7 +100,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                                                 .attr('transform', 'translate(75,561)');
 
   d3.select('svg').append("text")
-                  .attr("transform", "translate(" + ((width / 2) - 80) + " ," + (height + margin.bottom) + ")")
+                  .attr("transform", "translate(" + ((width / 2) - 80) + " ," + (height + margin.bottom + 3) + ")")
                   .attr('font-size', 20)
                   .attr("font-weight", 700)
                   .style("text-anchor", "middle")
