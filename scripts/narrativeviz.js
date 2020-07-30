@@ -77,27 +77,27 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
 
 
   d3.select('svg').append('g')
-                  .attr('transform', 'translate(50,50)')
+                  .attr('transform', 'translate(75,50)')
                   .selectAll().data(dataForYear).enter().append('circle')
                                                   .attr('cx', x => xAxisScale(parseFloat(x[currXAxisVariable])))
                                                   .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
                                                   .attr('r', x => (8));
 
   d3.select('svg').append('g')
-                  .attr('transform', 'translate(50,50)')
+                  .attr('transform', 'translate(75,50)')
                   .attr('fill', 'none')
                   .attr('font-size', 10)
                   .attr('font-family', 'sans-serif')
                   .attr('text-anchor', 'middle').call(d3.axisLeft(yAxisScale))
-                                                .attr('transform', 'translate(39,50)');
+                                                .attr('transform', 'translate(64,50)');
 
   d3.select('svg').append('g')
-                  .attr('transform', 'translate(50,50)')
+                  .attr('transform', 'translate(75,50)')
                   .attr('fill', 'none')
                   .attr('font-size', 10)
                   .attr('font-family', 'sans-serif')
                   .attr('text-anchor', 'middle').call(d3.axisBottom(xAxisScale))
-                                                .attr('transform', 'translate(50,561)');
+                                                .attr('transform', 'translate(75,561)');
 
   d3.select('svg').append("text")
                   .attr("transform", "translate(" + ((width / 2) - 80) + " ," + (height + margin.bottom) + ")")
@@ -106,7 +106,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
 
   d3.select('svg').append("text")
                   .attr("transform", "rotate(-90)")
-                  .attr("y", 0 - margin.left)
+                  .attr("y", 0)
                   .attr("x",0 - (height / 2))
                   .attr("dy", "1em")
                   .style("text-anchor", "middle")
