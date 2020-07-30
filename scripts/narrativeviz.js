@@ -101,14 +101,18 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
 
   d3.select('svg').append("text")
                   .attr("transform", "translate(" + ((width / 2) - 80) + " ," + (height + margin.bottom) + ")")
+                  .attr('font-size', 20)
+                  .attr("font-weight", 700)
                   .style("text-anchor", "middle")
                   .text(uiOutput[currXAxisVariable]);
 
   d3.select('svg').append("text")
                   .attr("transform", "rotate(-90)")
-                  .attr("y", 10)
+                  .attr("y", 8)
                   .attr("x",0 - (height / 2) - 30)
                   .attr("dy", "1em")
+                  .attr('font-size', 20)
+                  .attr("font-weight", 700)
                   .style("text-anchor", "middle")
                   .text(uiOutput[currYAxisVariable]);
 }
