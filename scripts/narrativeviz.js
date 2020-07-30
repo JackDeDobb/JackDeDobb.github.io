@@ -42,38 +42,10 @@ function renderGraphs(year) {
   updateGraphs(year, 0);
 }
 
-function updateGraphs(input, speed) {
+function updateGraphs(year, speed) {
   var svg = d3.select('#treemap');
   var dataForYear = dataMap[year];
 
-
-  //OLD CODE BELOW
-  x.domain([0, d3.max(data, d => d.total)]).nice();
-
-  svg.selectAll('.x-axis').transition().duration(speed).call(d3.axisTop(x).ticks(null, 's'));
-
-  data.sort((a, b) => b.total - a.total);
-
-  y.domain(data.map(d => d.lexeme));
-
-  svg.selectAll('.y-axis').transition().duration(speed).call(d3.axisLeft(y).tickSizeOuter(0));
-
-  var group = svg.selectAll('g.layer').data(d3.stack().keys(keys)(data), d => d.key);
-  group.exit().remove()
-  group.enter().insert('g', '.y-axis').append('g')
-                                      .classed('layer', true)
-                                      .attr('fill', function (d) { return z(d.key); });
-
-  var bars = svg.selectAll('g.layer').selectAll('rect').data(d => d, function (e) { return e.data.lexeme; });
-  bars.exit().remove();
-  bars.enter().append('rect')
-              .attr('height', y.bandwidth())
-              .merge(bars)
-              .on('mouseout', tooltipleave)
-              .transition().duration(speed)
-              .attr('y', d => y(d.data.lexeme))
-              .attr('x', function (d) {return x(d[0]);})
-              .attr('width', d => x(d[1]) - x(d[0]));
 }
 
 function handleYearChange() {
