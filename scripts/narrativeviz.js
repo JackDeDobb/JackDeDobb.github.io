@@ -131,9 +131,11 @@ function handleYearChange() {
 }
 
 function handleDropDown(xAxis, value) {
-  console.log(xAxis);
-  console.log(value);
   updateGraphs(null, xAxis? value : null, xAxis? null : value, 750);
+}
+
+function swapAxes() {
+  updateGraphs(null, currYAxisVariable, currXAxisVariable, 750);
 }
 
 function tooltipleave() {
