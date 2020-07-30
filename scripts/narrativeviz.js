@@ -46,6 +46,15 @@ function updateGraphs(year, speed) {
   var svg = d3.select('#treemap');
   var dataForYear = dataMap[year];
 
+  var yardsScale = d3.scaleLog().domain([10,150]).range([200,0]);
+  var touchDownsScale = d3.scaleLog().domain([10,150]).range([0,200]);
+
+  d3.select('svg').append('g')
+                  .attr('transform', 'translate(50,50)')
+                  .selectAll().data(dataForYear).enter().append('circle')
+                                                  .attr('cx', x => yardsScale(parseInt(x.Yds)))
+                                                  .attr('cy', x => touchDownsScale(parseInt(x.TD)))
+                                                  .attr('r', x => (4));
 }
 
 function handleYearChange() {
