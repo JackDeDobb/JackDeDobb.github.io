@@ -44,7 +44,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   currXAxisVariable = xAxisVariable || currXAxisVariable;
   currYAxisVariable = yAxisVariable || currYAxisVariable;
 
-  var dataForYear = dataMap[year];
+  var dataForYear = dataMap[currYear];
   var xDataPoints = dataForYear.map(x => parseInt(x[currXAxisVariable]));
   var yDataPoints = dataForYear.map(x => parseInt(x[currYAxisVariable]));
 
