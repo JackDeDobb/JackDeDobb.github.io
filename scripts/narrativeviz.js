@@ -45,8 +45,8 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   currYAxisVariable = yAxisVariable || currYAxisVariable;
 
   var dataForYear = dataMap[currYear];
-  var xDataPoints = dataForYear.map(x => parseInt(x[currXAxisVariable]));
-  var yDataPoints = dataForYear.map(x => parseInt(x[currYAxisVariable]));
+  var xDataPoints = dataForYear.map(x => parseFloat(x[currXAxisVariable]));
+  var yDataPoints = dataForYear.map(x => parseFloat(x[currYAxisVariable]));
 
   var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([0,500]);
   var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([500,0]);
@@ -55,8 +55,8 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   d3.select('svg').append('g')
                   .attr('transform', 'translate(50,50)')
                   .selectAll().data(dataForYear).enter().append('circle')
-                                                  .attr('cx', x => xAxisScale(parseInt(x[currXAxisVariable])))
-                                                  .attr('cy', x => yAxisScale(parseInt(x[currYAxisVariable])))
+                                                  .attr('cx', x => xAxisScale(parseFloat(x[currXAxisVariable])))
+                                                  .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
                                                   .attr('r', x => (8));
 
   d3.selectAll('g').filter(function() {
