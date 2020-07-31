@@ -148,10 +148,11 @@ function swapAxes() {
 
 function tooltipleave() {
   tooltip.transition().duration(200).style('opacity', 0);
-  tooltip.remove();
+  d3.selectAll('#tooltip').remove();
 }
 
 function tooltiphover(dataPoint) {
+  d3.selectAll('#tooltip').remove();
   tooltip = d3.select('body').append('div')
                              .attr('id', 'tooltip')
                              .style('opacity', 0)
