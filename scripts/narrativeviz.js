@@ -33,6 +33,7 @@ async function init() {
   height = 650 - margin.top - margin.bottom;
 
   tooltip = d3.select('body').append('div')
+                             .attr('id', 'tooltip')
                              .style('opacity', 0)
                              .style('font-size', '16px')
                              .attr('class', 'tooltip');
@@ -85,7 +86,9 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                                                   .attr('cx', x => xAxisScale(parseFloat(x[currXAxisVariable])))
                                                   .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
                                                   .attr('r', x => (8))
-                                                  .style('fill', x => colorScale(parseInt(x['Rk'])));
+                                                  .style('fill', x => colorScale(parseInt(x['Rk'])))
+                                                  .on('mousemove', tooltiphover)
+                                                  .on('mouseout', tooltipleave);
 
   d3.select('svg').append('g')
                   .attr('transform', 'translate(75,50)')
@@ -142,4 +145,30 @@ function swapAxes() {
 
 function tooltipleave() {
   tooltip.transition().duration(200).style('opacity', 0);
+}
+
+function tooltiphover(d) {
+  var frequency;
+  if (d[0] == 0 && d[1] == d.data.Republican) {
+    frequency = d.data.Republican;
+
+    tooltip
+    .style("opacity", 1)
+    .style("left", (d3.event.pageX+30) + "px")
+    .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:red'>" + frequency);
+  } else if (d[0] != 0) {
+    frequency = d.data.Democrat;
+
+    tooltip
+    .style("opacity", 1)
+    .style("left", (d3.event.pageX+30) + "px")
+    .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:steelblue'>" + frequency);
+  } else if (d[0] == 0 && d[1] == d.data.Democrat) {
+    frequency = d.data.Democrat;
+
+    tooltip
+    .style("opacity", 1)
+    .style("left", (d3.event.pageX+30) + "px")
+    .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:steelblue'>" + frequency);
+  }
 }
