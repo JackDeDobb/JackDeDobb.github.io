@@ -147,28 +147,8 @@ function tooltipleave() {
   tooltip.transition().duration(200).style('opacity', 0);
 }
 
-function tooltiphover(d) {
-  var frequency;
-  if (d[0] == 0 && d[1] == d.data.Republican) {
-    frequency = d.data.Republican;
-
-    tooltip
-    .style("opacity", 1)
-    .style("left", (d3.event.pageX+30) + "px")
-    .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:red'>" + frequency);
-  } else if (d[0] != 0) {
-    frequency = d.data.Democrat;
-
-    tooltip
-    .style("opacity", 1)
-    .style("left", (d3.event.pageX+30) + "px")
-    .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:steelblue'>" + frequency);
-  } else if (d[0] == 0 && d[1] == d.data.Democrat) {
-    frequency = d.data.Democrat;
-
-    tooltip
-    .style("opacity", 1)
-    .style("left", (d3.event.pageX+30) + "px")
-    .style("top", (d3.event.pageY+30) + "px").html("<strong>Frequency: </strong> <span style='color:steelblue'>" + frequency);
-  }
+function tooltiphover(dataPoint) {
+  tooltip.style('opacity', 1)
+         .style('left', (d3.event.pageX+30) + 'px')
+         .style('top', (d3.event.pageY+30) + 'px').html("<strong>Frequency: </strong> <span style='color:red'>" + 90);
 }
