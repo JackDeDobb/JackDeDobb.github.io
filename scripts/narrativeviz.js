@@ -96,7 +96,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                                                   .attr('cx', x => xAxisScale(parseFloat(x[currXAxisVariable])))
                                                   .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
                                                   .attr('r', x => (8))
-                                                  .style('fill', x => colorScale(parseInt(x['Rk'])))
+                                                  .style('fill', x => (parseInt(x['Rk']) == 1)? 'red' : colorScale(parseInt(x['Rk'])))
                                                   .on('mousemove', tooltiphover)
                                                   .on('mouseout', tooltipleave);
 
