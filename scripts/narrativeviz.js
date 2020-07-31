@@ -146,6 +146,39 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr("font-weight", 700)
                   .style("text-anchor", "middle")
                   .text('Highest Ranked');
+
+  var bestQuarterback = dataForYear.filter(x => (parseInt(x['Rk']) == 1))[0];
+
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + ((width - 80)) + " ," + (margin.top + 30) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "left")
+                  .text(bestQuarterback['Player'].slice(0, bestQuarterback['Player'].indexOf('\\')).replace(/\*/g, '').replace(/\+/g, '') + ' was ranked as');
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + (width - 80) + " ," + (margin.top + 50) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "left")
+                  .text('the best Quarterback in ' + currYear + '.');
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + (width - 80) + " ," + (margin.top + 70) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "left")
+                  .text('On this chart specifically, he has');
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + (width - 80) + " ," + (margin.top + 90) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "left")
+                  .text('the ' + ordinal_suffix_of(5) + ' highest ' + uiOutput[currXAxisVariable] + ' (' + bestQuarterback[currXAxisVariable] + ')');
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + (width - 80) + " ," + (margin.top + 110) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "left")
+                  .text('and the ' + ordinal_suffix_of(92) + ' highest ' + uiOutput[currYAxisVariable] + ' (' + bestQuarterback[currYAxisVariable] + ').');
 }
 
 function handleYearChange() {
@@ -193,4 +226,16 @@ function tooltiphover(dataPoint) {
          .style('left', (d3.event.pageX + 5) + 'px')
          .style('top', (d3.event.pageY + 5) + 'px').html(htmlString)
          .style('backgroundColor', colorScale(parseInt(dataPoint['Rk'])));
+}
+
+function ordinal_suffix_of(i) {
+  var j = i % 10, k = i % 100;
+  if (j == 1 && k != 11) {
+    return i + 'st';
+  } else if (j == 2 && k != 12) {
+    return i + 'nd';
+  } else if (j == 3 && k != 13) {
+    return i + 'rd';
+  }
+  return i + 'th';
 }
