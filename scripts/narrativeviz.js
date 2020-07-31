@@ -37,7 +37,8 @@ async function init() {
                              .attr('id', 'tooltip')
                              .style('opacity', 0)
                              .style('font-size', '16px')
-                             .attr('class', 'tooltip');
+                             .attr('class', 'tooltip')
+                             .style('border', 'thick solid black');
 
   var csvFiles = [...Array(10).keys()].map(i => d3.csv('https://jackdedobb.github.io/data/' + (i + startingDataYear) + 'Passing.csv'))
   Promise.all(csvFiles).then(function(files) {
@@ -151,7 +152,7 @@ function tooltipleave() {
 function tooltiphover(dataPoint) {
   var fieldOrder = ['Rk', 'G', 'GS', 'Cmp', 'Att', 'Cmp%', 'Yds', 'TD', 'TD%', 'Int', 'Int%', '1D', 'Lng', 'Y/A', 'Y/G', 'Rate', 'Sk'];
 
-  var htmlString = '<div><strong>' + dataPoint['Player'].slice(0, dataPoint['Player'].indexOf('\\')).replace(/\*/g, '') + '</strong></div>';
+  var htmlString = '<div><strong>' + dataPoint['Player'].slice(0, dataPoint['Player'].indexOf('\\')).replace(/\*/g, '').replace(/+/g, '') + '</strong></div>';
   htmlString += '-----------------------';
   fieldOrder.forEach(function(field) {
     htmlString += '<div><strong>' + uiOutput[field] + ': </strong>' + parseFloat(dataPoint[field].toString()) + '</div>';
@@ -159,5 +160,6 @@ function tooltiphover(dataPoint) {
 
   tooltip.style('opacity', 1)
          .style('left', (d3.event.pageX + 5) + 'px')
-         .style('top', (d3.event.pageY + 5) + 'px').html(htmlString);
+         .style('top', (d3.event.pageY + 5) + 'px').html(htmlString)
+         .style('backgroundColor', colorScale(parseInt(dataPoint['Rk'])));
 }
