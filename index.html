@@ -53,6 +53,9 @@
 			<p align="center">2019</p>
 		</div>
   </div>
+	<div class="container">
+		<svg id="treemap" width="960" height="650"></svg>
+  </div><!-- /.container -->
   <p>
     <label>Y-Axis:</label>
     <select id="yAxisDropDown" onchange="handleDropDown(false, this.value);">
@@ -95,10 +98,6 @@
     <label>Swap Axes:</label>
     <button type="button" onclick="swapAxes();">Swap</button>
  </p>
-
-	<div class="container">
-		<svg id="treemap" width="960" height="650"></svg>
-  </div><!-- /.container -->
   <svg width="912" height="30" viewBox="0 0 912 30" fill="none" transform="translate(150,-20)" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" width="30" height="30" fill="rgb(222, 237, 207)"/>
     <rect x="30" width="30" height="30" fill="rgb(191, 225, 176)"/>
