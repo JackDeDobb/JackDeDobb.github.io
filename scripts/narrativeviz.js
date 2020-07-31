@@ -34,13 +34,6 @@ async function init() {
   width = 960 - margin.left - margin.right;
   height = 650 - margin.top - margin.bottom;
 
-  tooltip = d3.select('body').append('div')
-                             .attr('id', 'tooltip')
-                             .style('opacity', 0)
-                             .style('font-size', '16px')
-                             .attr('class', 'tooltip')
-                             .style('border', 'thick solid black');
-
   var csvFiles = [...Array(10).keys()].map(i => d3.csv('https://jackdedobb.github.io/data/' + (i + startingDataYear) + 'Passing.csv'))
   Promise.all(csvFiles).then(function(files) {
     files.forEach(function(file, idx) {
@@ -57,6 +50,20 @@ function renderGraphs(year) {
 
   svg.append('g').attr('transform', `translate(${margin.left},0)`).attr('class', 'y-axis');
   svg.append('g').attr('transform', `translate(0,${margin.top})`).attr('class', 'x-axis');
+
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + ((width / 2) - 210) + " ," + (height + margin.bottom + 30) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "middle")
+                  .text('Lowest Ranked');
+
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + ((width / 2) + 30) + " ," + (height + margin.bottom + 30) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "middle")
+                  .text('Highest Ranked');
 
   updateGraphs(year, 'TD', 'Yds', 0);
 }
