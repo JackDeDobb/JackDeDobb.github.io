@@ -92,7 +92,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
 
   d3.select('svg').append('g')
                   .attr('transform', 'translate(75,50)')
-                  .selectAll().data(dataForYear).enter().append('circle')
+                  .selectAll().data(dataForYear.reverse()).enter().append('circle')
                                                   .attr('cx', x => xAxisScale(parseFloat(x[currXAxisVariable])))
                                                   .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
                                                   .attr('r', x => (8))
