@@ -132,6 +132,20 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr("font-weight", 700)
                   .style("text-anchor", "middle")
                   .text(uiOutput[currYAxisVariable]);
+
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + ((width / 2) - 210) + " ," + (height + margin.bottom + 30) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "middle")
+                  .text('Lowest Ranked');
+
+  d3.select('svg').append("text")
+                  .attr("transform", "translate(" + ((width / 2) + 30) + " ," + (height + margin.bottom + 30) + ")")
+                  .attr('font-size', 15)
+                  .attr("font-weight", 700)
+                  .style("text-anchor", "middle")
+                  .text('Highest Ranked');
 }
 
 function handleYearChange() {
