@@ -148,9 +148,17 @@ function swapAxes() {
 
 function tooltipleave() {
   tooltip.transition().duration(200).style('opacity', 0);
+  tooltip.remove();
 }
 
 function tooltiphover(dataPoint) {
+  tooltip = d3.select('body').append('div')
+                             .attr('id', 'tooltip')
+                             .style('opacity', 0)
+                             .style('font-size', '16px')
+                             .attr('class', 'tooltip')
+                             .style('border', 'thick solid black');
+
   var fieldOrder = ['Rk', 'G', 'GS', 'Cmp', 'Att', 'Cmp%', 'Yds', 'TD', 'TD%', 'Int', 'Int%', '1D', 'Lng', 'Y/A', 'Y/G', 'Rate', 'Sk'];
 
   var htmlString = '<div><strong>' + dataPoint['Player'].slice(0, dataPoint['Player'].indexOf('\\')).replace(/\*/g, '').replace(/\+/g, '') + '</strong></div>';
