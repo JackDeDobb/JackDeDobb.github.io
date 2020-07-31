@@ -1,4 +1,5 @@
 const uiOutput = {
+  'Rk': 'Ranking',
   'G': 'Games Played',
   'GS': 'Games Started',
   'Cmp': 'Completions',
@@ -148,7 +149,14 @@ function tooltipleave() {
 }
 
 function tooltiphover(dataPoint) {
+  var fieldOrder = ['Rk', 'G', 'GS', 'Cmp', 'Att', 'Cmp%', 'Yds', 'TD', 'TD%', 'Int', 'Int%', '1D', 'Lng', 'Y/A', 'Y/G', 'Rate', 'Sk'];
+
+  var htmlString = '<div><strong>' + dataPoint['Player'].slice(0, dataPoint['Player'].indexOf('\\')) + '</strong></div>';
+  fieldOrder.forEach(function(field) {
+    htmlString += '<div><strong>' + uiOutput[field] + ': </strong>' + parseFloat(dataPoint[field].toString()) + '</div>';
+  });
+
   tooltip.style('opacity', 1)
-         .style('left', (d3.event.pageX+30) + 'px')
-         .style('top', (d3.event.pageY+30) + 'px').html("<strong>Frequency: </strong> <span style='color:red'>" + 90);
+         .style('left', (d3.event.pageX + 5) + 'px')
+         .style('top', (d3.event.pageY + 5) + 'px').html(htmlString);
 }
