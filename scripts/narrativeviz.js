@@ -25,6 +25,7 @@ var margin;
 var width;
 var height;
 var tooltip;
+var colorScale;
 
 
 async function init() {
@@ -72,7 +73,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
 
   var xAxisScale = d3.scaleLinear().domain([Math.min(...xDataPoints), Math.max(...xDataPoints)]).range([0,500]);
   var yAxisScale = d3.scaleLinear().domain([Math.min(...yDataPoints), Math.max(...yDataPoints)]).range([500,0]);
-  var colorScale = d3.scaleQuantile().domain(rankDataPoints).range(['#0A2F51', '#0E4D64', '#137177', '#188977', '#1D9A6C', '#39A96B', '#56B870', '#74C67A', '#99D492', '#BFE1B0', '#DEEDCF']);
+  colorScale = d3.scaleQuantile().domain(rankDataPoints).range(['#0A2F51', '#0E4D64', '#137177', '#188977', '#1D9A6C', '#39A96B', '#56B870', '#74C67A', '#99D492', '#BFE1B0', '#DEEDCF']);
 
 
   // Remove Previous
