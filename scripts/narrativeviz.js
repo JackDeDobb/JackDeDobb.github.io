@@ -148,37 +148,21 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .text('Highest Ranked');
 
   var bestQuarterback = dataForYear.filter(x => (parseInt(x['Rk']) == 1))[0];
-
-  d3.select('svg').append("text")
-                  .attr("transform", "translate(" + ((width - 150)) + " ," + (margin.top + 30) + ")")
-                  .attr('font-size', 15)
-                  .attr("font-weight", 700)
-                  .style("text-anchor", "left")
-                  .text(bestQuarterback['Player'].slice(0, bestQuarterback['Player'].indexOf('\\')).replace(/\*/g, '').replace(/\+/g, '') + ' was ranked as');
-  d3.select('svg').append("text")
-                  .attr("transform", "translate(" + (width - 150) + " ," + (margin.top + 50) + ")")
-                  .attr('font-size', 15)
-                  .attr("font-weight", 700)
-                  .style("text-anchor", "left")
-                  .text('the best Quarterback in ' + currYear + '.');
-  d3.select('svg').append("text")
-                  .attr("transform", "translate(" + (width - 150) + " ," + (margin.top + 70) + ")")
-                  .attr('font-size', 15)
-                  .attr("font-weight", 700)
-                  .style("text-anchor", "left")
-                  .text('On this chart specifically, he has');
-  d3.select('svg').append("text")
-                  .attr("transform", "translate(" + (width - 150) + " ," + (margin.top + 90) + ")")
-                  .attr('font-size', 15)
-                  .attr("font-weight", 700)
-                  .style("text-anchor", "left")
-                  .text('the ' + ordinal_suffix_of(5) + ' highest ' + uiOutput[currXAxisVariable] + ' (' + bestQuarterback[currXAxisVariable] + ')');
-  d3.select('svg').append("text")
-                  .attr("transform", "translate(" + (width - 150) + " ," + (margin.top + 110) + ")")
-                  .attr('font-size', 15)
-                  .attr("font-weight", 700)
-                  .style("text-anchor", "left")
-                  .text('and the ' + ordinal_suffix_of(92) + ' highest ' + uiOutput[currYAxisVariable] + ' (' + bestQuarterback[currYAxisVariable] + ').');
+  var linesOfText = [
+    bestQuarterback['Player'].slice(0, bestQuarterback['Player'].indexOf('\\')).replace(/\*/g, '').replace(/\+/g, '') + ' was ranked as',
+    'the best Quarterback in ' + currYear + '.',
+    'On this chart specifically, he has',
+    'the ' + ordinal_suffix_of(5) + ' highest ' + uiOutput[currXAxisVariable] + ' (' + bestQuarterback[currXAxisVariable] + ')',
+    'and the ' + ordinal_suffix_of(92) + ' highest ' + uiOutput[currYAxisVariable] + ' (' + bestQuarterback[currYAxisVariable] + ').'
+  ];
+  linesOfText.forEach(function(lineOfText, idx) {
+    d3.select('svg').append("text")
+                    .attr("transform", "translate(" + ((width - 150)) + " ," + (margin.top + 30 + (idx * 20)) + ")")
+                    .attr('font-size', 15)
+                    .attr("font-weight", 700)
+                    .style("text-anchor", "left")
+                    .text(lineOfText);
+  });
 }
 
 function handleYearChange() {
