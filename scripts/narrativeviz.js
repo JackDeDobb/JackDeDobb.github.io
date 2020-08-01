@@ -148,12 +148,18 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .text('Highest Ranked');
 
   var bestQuarterback = dataForYear.filter(x => (parseInt(x['Rk']) == 1))[0];
+  var bestQuarterBackXHighest = dataForYear.slice().sort(function(a, b) {
+    return parseFloat(a[currXAxisVariable]) - parseFloat(b[currXAxisVariable]);
+  }).reverse().findIndex(x => parseInt(x['Rk']) == 1) + 1;
+  var bestQuarterBackYHighest = dataForYear.slice().sort(function(a, b) {
+    return parseFloat(a[currYAxisVariable]) - parseFloat(b[currYAxisVariable]);
+  }).reverse().findIndex(x => parseInt(x['Rk']) == 1) + 1;
   var linesOfText = [
     bestQuarterback['Player'].slice(0, bestQuarterback['Player'].indexOf('\\')).replace(/\*/g, '').replace(/\+/g, '') + ' was ranked as',
     'the best Quarterback in ' + currYear + '.',
     'On this chart specifically, he has',
-    'the ' + ordinal_suffix_of(5) + ' highest ' + uiOutput[currXAxisVariable] + ' (' + bestQuarterback[currXAxisVariable] + ')',
-    'and the ' + ordinal_suffix_of(92) + ' highest ' + uiOutput[currYAxisVariable] + ' (' + bestQuarterback[currYAxisVariable] + ').'
+    'the ' + ordinal_suffix_of(bestQuarterBackXHighest) + ' highest ' + uiOutput[currXAxisVariable] + ' (' + bestQuarterback[currXAxisVariable] + ')',
+    'and the ' + ordinal_suffix_of(bestQuarterBackYHighest) + ' highest ' + uiOutput[currYAxisVariable] + ' (' + bestQuarterback[currYAxisVariable] + ').'
   ];
   linesOfText.forEach(function(lineOfText, idx) {
     d3.select('svg').append("text")
@@ -179,8 +185,8 @@ function handleDropDown(xAxis, value) {
 }
 
 function swapAxes() {
-  document.getElementById("xAxisDropDown").value = currYAxisVariable;
-  document.getElementById("yAxisDropDown").value = currXAxisVariable;
+  document.getElementById('xAxisDropDown').value = currYAxisVariable;
+  document.getElementById('yAxisDropDown').value = currXAxisVariable;
   updateGraphs(null, currYAxisVariable, currXAxisVariable, 750);
 }
 
