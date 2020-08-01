@@ -86,6 +86,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   // Remove Previous
   d3.selectAll('circle').remove();
   d3.selectAll('text').remove();
+  d3.selectAll('line').remove();
   d3.selectAll('g').filter(function() { return d3.select(this).attr('class') === 'tick'; }).remove();
   d3.selectAll('path').filter(function() { return d3.select(this).attr('class') === 'domain'; }).remove();
 
