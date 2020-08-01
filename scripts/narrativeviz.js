@@ -169,6 +169,16 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                     .style("text-anchor", "left")
                     .text(lineOfText);
   });
+
+  var redDotXLocation = xAxisScale(parseFloat(bestQuarterback[currXAxisVariable])) + 75;
+  var redDotYLocation = yAxisScale(parseFloat(bestQuarterback[currYAxisVariable])) + 50;
+  d3.select('svg').append('line')
+                  .style("stroke", "red")
+                  .style("stroke-width", 5)
+                  .attr("x1", redDotXLocation + 15)
+                  .attr("y1", redDotYLocation)
+                  .attr("x2", (width - 155))
+                  .attr("y2", (margin.top + 25));
 }
 
 function handleYearChange() {
