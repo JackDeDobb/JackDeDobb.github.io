@@ -69,6 +69,8 @@ function renderGraphs(year) {
 }
 
 function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
+  clear();
+  var year, xAxisVariable, yAxisVariable;
   currYear = year || currYear;
   currXAxisVariable = xAxisVariable || currXAxisVariable;
   currYAxisVariable = yAxisVariable || currYAxisVariable;
@@ -175,7 +177,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   var redDotYLocation = yAxisScale(parseFloat(bestQuarterback[currYAxisVariable])) + 50;
   d3.select('svg').append('line')
                   .style("stroke", "red")
-                  .style("stroke-width", 5)
+                  .style("stroke-width", 2)
                   .attr("x1", redDotXLocation + 15)
                   .attr("y1", redDotYLocation)
                   .attr("x2", (width - 155))
