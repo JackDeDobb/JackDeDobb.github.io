@@ -209,7 +209,8 @@ function tooltiphover(dataPoint) {
   var htmlString = '<div><strong>' + dataPoint['Player'].slice(0, dataPoint['Player'].indexOf('\\')).replace(/\*/g, '').replace(/\+/g, '') + '</strong></div>';
   htmlString += '-----------------------';
   fieldOrder.forEach(function(field) {
-    htmlString += '<div><strong>' + uiOutput[field] + ': </strong>' + parseFloat(dataPoint[field].toString()) + '</div>';
+    var styleRed = (field === currXAxisVariable || field === currYAxisVariable)? ' style="color:red;"' : '';
+    htmlString += '<div' + styleRed + '><strong>' + uiOutput[field] + ': </strong>' + parseFloat(dataPoint[field].toString()) + '</div>';
   });
 
   tooltip.style('opacity', 1)
