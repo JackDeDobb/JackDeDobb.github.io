@@ -90,7 +90,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   d3.selectAll('g').filter(function() { return d3.select(this).attr('class') === 'tick'; }).remove();
   d3.selectAll('path').filter(function() { return d3.select(this).attr('class') === 'domain'; }).remove();
 
-
+  // circles
   d3.select('svg').append('g')
                   .attr('transform', 'translate(75,50)')
                   .selectAll().data(dataForYear.slice().reverse()).enter().append('circle')
@@ -98,9 +98,10 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                                                   .attr('cy', x => yAxisScale(parseFloat(x[currYAxisVariable])))
                                                   .attr('r', x => (8))
                                                   .style('fill', x => (parseInt(x['Rk']) == 1)? 'red' : colorScale(parseInt(x['Rk'])))
-                                                  .on('mousemove', tooltiphover)
-                                                  .on('mouseout', tooltipleave);
+                                                  .on('mousemove', tooltipHover)
+                                                  .on('mouseout', tooltipLeave);
 
+  // axes
   d3.select('svg').append('g')
                   .attr('transform', 'translate(75,50)')
                   .attr('fill', 'none')
@@ -117,6 +118,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr('text-anchor', 'middle').call(d3.axisBottom(xAxisScale))
                                                 .attr('transform', 'translate(75,561)');
 
+  // axes labels
   d3.select('svg').append("text")
                   .attr("transform", "translate(" + ((width / 2) - 80) + " ," + (height + margin.bottom + 3) + ")")
                   .attr('font-size', 20)
@@ -134,6 +136,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .style("text-anchor", "middle")
                   .text(uiOutput[currYAxisVariable]);
 
+  // color key labels
   d3.select('svg').append("text")
                   .attr("transform", "translate(" + ((width / 2) - 210) + " ," + (height + margin.bottom + 30) + ")")
                   .attr('font-size', 15)
@@ -148,6 +151,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .style("text-anchor", "middle")
                   .text('Highest Ranked');
 
+  // best quarterback blurb
   var bestQuarterback = dataForYear.filter(x => (parseInt(x['Rk']) == 1))[0];
   var bestQuarterBackXHighest = dataForYear.slice().sort(function(a, b) {
     return parseFloat(a[currXAxisVariable]) - parseFloat(b[currXAxisVariable]);
@@ -171,6 +175,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                     .text(lineOfText);
   });
 
+  // red line to best quarterback blurb
   var redDotXLocation = xAxisScale(parseFloat(bestQuarterback[currXAxisVariable])) + 75;
   var redDotYLocation = yAxisScale(parseFloat(bestQuarterback[currYAxisVariable])) + 50;
   d3.select('svg').append('line')
@@ -201,12 +206,12 @@ function swapAxes() {
   updateGraphs(null, currYAxisVariable, currXAxisVariable, 750);
 }
 
-function tooltipleave() {
+function tooltipLeave() {
   tooltip.transition().duration(200).style('opacity', 0);
   d3.selectAll('#tooltip').remove();
 }
 
-function tooltiphover(dataPoint) {
+function tooltipHover(dataPoint) {
   d3.selectAll('#tooltip').remove();
   tooltip = d3.select('body').append('div')
                              .attr('id', 'tooltip')
