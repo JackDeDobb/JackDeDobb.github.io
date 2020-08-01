@@ -69,8 +69,6 @@ function renderGraphs(year) {
 }
 
 function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
-  clear();
-  var year, xAxisVariable, yAxisVariable;
   currYear = year || currYear;
   currXAxisVariable = xAxisVariable || currXAxisVariable;
   currYAxisVariable = yAxisVariable || currYAxisVariable;
