@@ -188,8 +188,14 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr("y2", (margin.top + 25));
 
   var invertDataPoints = (standardDeviation(xDataPoints) / mean(...xDataPoints)) < (standardDeviation(yDataPoints) / mean(...yDataPoints));
-  var linearEquation = findLineByLeastSquares(xDataPoints, yDataPoints);
-  var m = linearEquation[0], b = linearEquation[1];
+  if (!invertDataPoints) {
+    var linearEquation = findLineByLeastSquares(xDataPoints, yDataPoints);
+    var m = linearEquation[0], b = linearEquation[1];
+  } else {
+    var linearEquation = findLineByLeastSquares(yDataPoints, xDataPoints);
+    var m = 1 / linearEquation[0], b = -1 * linearEquation[1] / linearEquation[0];
+  }
+
   d3.select('svg').append('line')
                   .attr('transform', 'translate(75,50)')
                   .style("stroke", "black")
