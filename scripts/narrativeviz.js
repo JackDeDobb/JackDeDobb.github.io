@@ -198,13 +198,13 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr("y2", yAxisScale(m * Math.max(...xDataPoints) + b));
 
   d3.select('svg').append("text")
-                  .attr("transform", "translate(" + ((width - 150)) + " ," + (margin.top + 310) + ")")
+                  .attr("transform", "translate(" + ((width - 220)) + " ," + (margin.top + 310) + ")")
                   .attr('font-size', 15)
                   .attr("font-weight", 700)
                   .style("text-anchor", "left")
                   .text('The line of best fit for this chart is:');
   d3.select('svg').append("text")
-                  .attr("transform", "translate(" + ((width - 150)) + " ," + (margin.top + 330) + ")")
+                  .attr("transform", "translate(" + ((width - 220)) + " ," + (margin.top + 330) + ")")
                   .attr('font-size', 15)
                   .attr("font-weight", 700)
                   .style("text-anchor", "left")
