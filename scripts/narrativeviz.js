@@ -185,6 +185,17 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr("y1", redDotYLocation)
                   .attr("x2", (width - 155))
                   .attr("y2", (margin.top + 25));
+
+  var linearEquation = findLineByLeastSquares(xDataPoints, yDataPoints);
+  var m = linearEquation[0], b = linearEquation[1];
+  d3.select('svg').append('line')
+                  .attr('transform', 'translate(75,50)')
+                  .style("stroke", "orange")
+                  .style("stroke-width", 2)
+                  .attr("x1", xAxisScale(0))
+                  .attr("y1", yAxisScale(m * 0 + b))
+                  .attr("x2", xAxisScale(Math.max(...xDataPoints)))
+                  .attr("y2", yAxisScale(m * Math.max(...xDataPoints) + b));
 }
 
 function handleYearChange() {
@@ -245,4 +256,29 @@ function ordinal_suffix_of(i) {
     return i + 'rd';
   }
   return i + 'th';
+}
+
+function findLineByLeastSquares(values_x, values_y) {
+  var x_sum = 0;
+  var y_sum = 0;
+  var xy_sum = 0;
+  var xx_sum = 0;
+  var count = 0;
+  var x = 0;
+  var y = 0;
+  var values_length = values_x.length;
+
+  for (let i = 0; i < values_length; i++) {
+    x = values_x[i];
+    y = values_y[i];
+    x_sum += x;
+    y_sum += y;
+    xx_sum += x*x;
+    xy_sum += x*y;
+    count++;
+  }
+
+  var m = (count*xy_sum - x_sum*y_sum) / (count*xx_sum - x_sum*x_sum);
+  var b = (y_sum/count) - (m*x_sum) / count;
+  return [m, b];
 }
