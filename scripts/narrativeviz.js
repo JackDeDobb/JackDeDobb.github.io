@@ -192,8 +192,8 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr('transform', 'translate(75,50)')
                   .style("stroke", "black")
                   .style("stroke-width", 4)
-                  .attr("x1", xAxisScale(0))
-                  .attr("y1", yAxisScale(m * 0 + b))
+                  .attr("x1", xAxisScale(Math.min(...xDataPoints)))
+                  .attr("y1", yAxisScale(m * Math.min(...xDataPoints) + b))
                   .attr("x2", xAxisScale(Math.max(...xDataPoints)))
                   .attr("y2", yAxisScale(m * Math.max(...xDataPoints) + b));
 }
