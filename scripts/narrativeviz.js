@@ -1,4 +1,3 @@
-var mean = (...numbers) => numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
 const uiOutput = {
   'Rk': 'Ranking',
   'G': 'Games Played',
@@ -306,12 +305,6 @@ function findLineByLeastSquares(values_x, values_y) {
   var m = (count*xy_sum - x_sum*y_sum) / (count*xx_sum - x_sum*x_sum);
   var b = (y_sum/count) - (m*x_sum) / count;
   return [m, b];
-}
-
-function standardDeviation(array) {
-  const n = array.length;
-  const mean = array.reduce((a, b) => a + b) / n;
-  return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
 }
 
 function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
