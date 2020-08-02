@@ -208,7 +208,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr('font-size', 15)
                   .attr("font-weight", 700)
                   .style("text-anchor", "left")
-                  .text(uiOutput[yAxisVariable] + ' = ' + m.toFixed(3) + ' * ' + uiOutput[xAxisVariable] + ' + ' + b.toFixed(3));
+                  .text(uiOutput[currYAxisVariable] + ' = ' + m.toFixed(3) + ' * ' + uiOutput[currXAxisVariable] + ' + ' + b.toFixed(3));
 }
 
 function handleYearChange() {
