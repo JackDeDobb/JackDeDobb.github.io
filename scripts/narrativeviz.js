@@ -187,13 +187,17 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr("x2", (width - 155))
                   .attr("y2", (margin.top + 25));
 
-  var invertDataPoints = (standardDeviation(xDataPoints) / mean(...xDataPoints)) < (standardDeviation(yDataPoints) / mean(...yDataPoints));
-  if (!invertDataPoints) {
-    var linearEquation = findLineByLeastSquares(xDataPoints, yDataPoints);
-    var m = linearEquation[0], b = linearEquation[1];
+  var linearEquation1 = findLineByLeastSquares(xDataPoints, yDataPoints);
+  var m1 = linearEquation1[0], b1 = linearEquation1[1];
+  var linearEquation2 = findLineByLeastSquares(yDataPoints, xDataPoints);
+  var m2 = linearEquation2[0], b2 = linearEquation2[1];
+  var m, b;
+  if (sumLeastSquared(yDataPoints, xDataPoints, m1, b1) < sumLeastSquared(xDataPoints, yDataPoints, m2, b2)) {
+    m = m1;
+    b = b1;
   } else {
-    var linearEquation = findLineByLeastSquares(yDataPoints, xDataPoints);
-    var m = 1 / linearEquation[0], b = -1 * linearEquation[1] / linearEquation[0];
+    m = 1 / m2;
+    b = -1 * b2 / m2;
   }
 
   d3.select('svg').append('line')
@@ -308,4 +312,12 @@ function standardDeviation(array) {
   const n = array.length;
   const mean = array.reduce((a, b) => a + b) / n;
   return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
+}
+
+function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
+  var total = 0;
+  for (var i = 0; i < yDataPoints.length; i++) {
+    total += Math.abs(yDataPoints[i] - (m * xDataPoints[i] + b));
+  }
+  return total;
 }
