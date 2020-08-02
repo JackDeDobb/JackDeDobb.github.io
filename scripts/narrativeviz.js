@@ -190,8 +190,8 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
   var m = linearEquation[0], b = linearEquation[1];
   d3.select('svg').append('line')
                   .attr('transform', 'translate(75,50)')
-                  .style("stroke", "orange")
-                  .style("stroke-width", 2)
+                  .style("stroke", "black")
+                  .style("stroke-width", 4)
                   .attr("x1", xAxisScale(0))
                   .attr("y1", yAxisScale(m * 0 + b))
                   .attr("x2", xAxisScale(Math.max(...xDataPoints)))
