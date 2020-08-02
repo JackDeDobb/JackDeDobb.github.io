@@ -260,7 +260,7 @@ function tooltipHover(dataPoint) {
   var htmlString = '<div><strong>' + dataPoint['Player'].slice(0, dataPoint['Player'].indexOf('\\')).replace(/\*/g, '').replace(/\+/g, '') + '</strong></div>';
   htmlString += '-----------------------';
   fieldOrder.forEach(function(field) {
-    var styleRed = (field === currXAxisVariable || field === currYAxisVariable)? ' style="color:green;"' : '';
+    var styleRed = (field === currXAxisVariable || field === currYAxisVariable)? ' style="color:blue;"' : '';
     htmlString += '<div' + styleRed + '><strong>' + uiOutput[field] + ': </strong>' + parseFloat(dataPoint[field].toString()) + '</div>';
   });
 
