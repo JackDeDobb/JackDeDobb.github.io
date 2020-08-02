@@ -1,3 +1,4 @@
+var mean = (...numbers) => numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
 const uiOutput = {
   'Rk': 'Ranking',
   'G': 'Games Played',
@@ -186,6 +187,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
                   .attr("x2", (width - 155))
                   .attr("y2", (margin.top + 25));
 
+  var invertDataPoints = (standardDeviation(xDataPoints) / mean(...xDataPoints)) < (standardDeviation(yDataPoints) / mean(...yDataPoints));
   var linearEquation = findLineByLeastSquares(xDataPoints, yDataPoints);
   var m = linearEquation[0], b = linearEquation[1];
   d3.select('svg').append('line')
@@ -294,4 +296,10 @@ function findLineByLeastSquares(values_x, values_y) {
   var m = (count*xy_sum - x_sum*y_sum) / (count*xx_sum - x_sum*x_sum);
   var b = (y_sum/count) - (m*x_sum) / count;
   return [m, b];
+}
+
+function standardDeviation(array) {
+  const n = array.length;
+  const mean = array.reduce((a, b) => a + b) / n;
+  return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
 }
