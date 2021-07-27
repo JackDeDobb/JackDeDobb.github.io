@@ -34,7 +34,7 @@ async function init() {
   width = 960 - margin.left - margin.right;
   height = 650 - margin.top - margin.bottom;
 
-  var csvFiles = [...Array(10).keys()].map(i => d3.csv('https://jackdedobb.github.io/data/' + (i + startingDataYear) + 'Passing.csv'))
+  var csvFiles = [...Array(10).keys()].map(i => d3.csv('https://jackdedobb.github.io/footballVisualization/data/' + (i + startingDataYear) + 'Passing.csv'))
   Promise.all(csvFiles).then(function(files) {
     files.forEach(function(file, idx) {
       dataMap[idx + startingDataYear] = file;
