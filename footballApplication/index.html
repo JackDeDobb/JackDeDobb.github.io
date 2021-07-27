@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Best Quarterbacks of the Decade</title>
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  <script src="/scripts/narrativeviz.js"></script>
+</head>
+<body onload='init();'>
+	<div>
+		<h1> Best Quarterbacks of the Decade </h1>
+	</div>
+	<div class="row">
+		<div class="column">
+			<a href="#" id="2010" onclick="return false;"><img id="2010" src="/images/PeytonManning.jpg" alt="Peyton Manning - 2010" style="width:75%; border:8px solid green;"></a>
+			<p align="center">2010</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2011" onclick="return false;"><img  id="2011" src="/images/MatthewStafford.jpg" alt="Matthew Stafford - 2011" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2011</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2012" onclick="return false;"><img  id="2012" src="/images/MatthewStafford.jpg" alt="Matthew Stafford - 2012" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2012</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2013" onclick="return false;"><img  id="2013" src="/images/PeytonManning.jpg" alt="Peyton Manning - 2013" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2013</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2014" onclick="return false;"><img  id="2014" src="/images/DrewBrees.jpg" alt="Drew Brees - 2014" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2014</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2015" onclick="return false;"><img  id="2015" src="/images/PhillipRivers.jpg" alt="Phillip Rivers - 2015" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2015</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2016" onclick="return false;"><img  id="2016" src="/images/DrewBrees.jpg" alt="Drew Brees - 2016" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2016</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2017" onclick="return false;"><img  id="2017" src="/images/TomBrady.jpg" alt="Tom Brady - 2017" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2017</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2018" onclick="return false;"><img  id="2018" src="/images/BenRoethlisberger.jpg" alt="Ben Roethlisberger - 2018" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2018</p>
+		</div>
+		<div class="column">
+			<a href="#" id="2019" onclick="return false;"><img  id="2019" src="/images/JaredGoff.jpg" alt="Jared Goff - 2019" style="width:75%; border:4px solid black; opacity: .5"></a>
+			<p align="center">2019</p>
+		</div>
+  </div>
+  <p>
+    <label>Y-Axis:</label>
+    <select id="yAxisDropDown" onchange="handleDropDown(false, this.value);">
+      <option value="G">Games Played</option>
+      <option value="GS">Games Started</option>
+      <option value="Cmp">Completions</option>
+      <option value="Att">Attempts</option>
+      <option value="Cmp%">Completion %</option>
+      <option value="Yds" selected="selected">Yards</option>
+      <option value="TD">TouchDowns</option>
+      <option value="TD%">TouchDowns %</option>
+      <option value="Int">Interceptions</option>
+      <option value="Int%">Interceptions %</option>
+      <option value="1D">First Downs</option>
+      <option value="Lng">Longest Pass</option>
+      <option value="Y/A">Yards / Attempt</option>
+      <option value="Y/G">Yards / Game</option>
+      <option value="Rate">Rating</option>
+      <option value="Sk">Sacks</option>
+    </select>
+    <label>X-Axis:</label>
+    <select id="xAxisDropDown" onchange="handleDropDown(true, this.value);">
+      <option value="G">Games Played</option>
+      <option value="GS">Games Started</option>
+      <option value="Cmp">Completions</option>
+      <option value="Att">Attempts</option>
+      <option value="Cmp%">Completion %</option>
+      <option value="Yds">Yards</option>
+      <option value="TD" selected="selected">TouchDowns</option>
+      <option value="TD%">TouchDowns %</option>
+      <option value="Int">Interceptions</option>
+      <option value="Int%">Interceptions %</option>
+      <option value="1D">First Downs</option>
+      <option value="Lng">Longest Pass</option>
+      <option value="Y/A">Yards / Attempt</option>
+      <option value="Y/G">Yards / Game</option>
+      <option value="Rate">Rating</option>
+      <option value="Sk">Sacks</option>
+    </select>
+    <label>Swap Axes:</label>
+    <button type="button" onclick="swapAxes();">Swap</button>
+ </p>
+	<div class="container">
+		<svg id="treemap" width="960" height="650"></svg>
+  </div><!-- /.container -->
+  <svg width="912" height="30" viewBox="0 0 912 30" fill="none" transform="translate(150,-20)" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" width="30" height="30" fill="rgb(222, 237, 207)"/>
+    <rect x="30" width="30" height="30" fill="rgb(191, 225, 176)"/>
+    <rect x="60" width="30" height="30" fill="rgb(153, 212, 146)"/>
+    <rect x="90" width="30" height="30" fill="rgb(116, 198, 122)"/>
+    <rect x="120" width="30" height="30" fill="rgb(86, 184, 112)"/>
+    <rect x="150" width="30" height="30" fill="rgb(57, 169, 107)"/>
+    <rect x="180" width="90" height="30" fill="#1D9A6C"/>
+    <rect x="210" width="30" height="30" fill="rgb(24, 137, 119)"/>
+    <rect x="240" width="30" height="30" fill="rgb(19, 113, 119)"/>
+    <rect x="270" width="30" height="30" fill="rgb(14, 77, 100)"/>
+    <rect x="300" width="30" height="30" fill="rgb(10, 47, 81)"/>
+  </svg>
+	<footer>
+		<ul>
+		</ul>
+	</footer>
+</body>
+</html>
