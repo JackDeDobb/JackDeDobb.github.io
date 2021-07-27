@@ -1,4 +1,4 @@
-/* Three image containers (use 25% for four, and 50% for two, etc) */
+/* Three image containers (use 25% for 4, and 50% for 2, etc) */
 .column {
   float: left;
   width: 6%;
