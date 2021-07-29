@@ -327,12 +327,14 @@ function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
 // LDA Visualization functions below
 function addRowsToExampleReviewsTable(tableReference) {
   var firstJsonFile = d3.text('https://jackdedobb.github.io/yelpApplication/data/yelp_academic_dataset_review00.json');
-  var dataArr = [];
+  var rowCount = tableReference.rows.length;
+  var colCount = tableReference.rows[0].cells.length;
+
   Promise.resolve(firstJsonFile).then(function(result) {
     var lines = result.split('\n').slice(0, 20);
     lines.forEach(function(line) {
       var parsedLine = JSON.parse(line);
-      dataArr.push({
+      var dataItem = {
         starRating:     parsedLine['stars'],
         numFunnyVotes:  parsedLine['votes']['funny'],
         numCoolVotes:   parsedLine['votes']['cool'],
@@ -342,51 +344,46 @@ function addRowsToExampleReviewsTable(tableReference) {
         businessID:     parsedLine['business_id'],
         date:           parsedLine['date'],
         text:           parsedLine['text']
-      });
-    });
-  });
+      };
 
-  dataArr.forEach(function(dataItem) {
-    var rowCount = tableReference.rows.length;
-    var colCount = tableReference.rows[0].cells.length;
-
-    var row = tableReference.insertRow(rowCount);
-    for (var i = 0; i < colCount; i++) {
-      var newCellInnerHTML = null;
-      var columnHeader = tableReference.rows[0].cells[i].innerHTML;
-      switch (columnHeader) {
-        case 'Star Rating': {
-          newCellInnerHTML = dataItem['starRating'];
-          break;
-        } case '# Funny Votes': {
-          newCellInnerHTML = dataItem['numFunnyVotes'];
-          break;
-        } case '# Cool Votes': {
-          newCellInnerHTML = dataItem['numCoolVotes'];
-          break;
-        } case '# Useful Votes': {
-          newCellInnerHTML = dataItem['numUsefulVotes'];
-          break;
-        } case 'User ID': {
-          newCellInnerHTML = dataItem['userID'];
-          break;
-        } case 'Review ID': {
-          newCellInnerHTML = dataItem['reviewID'];
-          break;
-        } case 'Business ID': {
-          newCellInnerHTML = dataItem['businessID'];
-          break;
-        } case 'Date': {
-          newCellInnerHTML = dataItem['date'];
-          break;
-        } case 'Review Text': {
-          newCellInnerHTML = dataItem['text'];
-          break;
+      var row = tableReference.insertRow(rowCount);
+      for (var i = 0; i < colCount; i++) {
+        var newCellInnerHTML = null;
+        var columnHeader = tableReference.rows[0].cells[i].innerHTML;
+        switch (columnHeader) {
+          case 'Star Rating': {
+            newCellInnerHTML = dataItem['starRating'];
+            break;
+          } case '# Funny Votes': {
+            newCellInnerHTML = dataItem['numFunnyVotes'];
+            break;
+          } case '# Cool Votes': {
+            newCellInnerHTML = dataItem['numCoolVotes'];
+            break;
+          } case '# Useful Votes': {
+            newCellInnerHTML = dataItem['numUsefulVotes'];
+            break;
+          } case 'User ID': {
+            newCellInnerHTML = dataItem['userID'];
+            break;
+          } case 'Review ID': {
+            newCellInnerHTML = dataItem['reviewID'];
+            break;
+          } case 'Business ID': {
+            newCellInnerHTML = dataItem['businessID'];
+            break;
+          } case 'Date': {
+            newCellInnerHTML = dataItem['date'];
+            break;
+          } case 'Review Text': {
+            newCellInnerHTML = dataItem['text'];
+            break;
+          }
         }
+        row.insertCell(i).innerHTML = newCellInnerHTML;
       }
 
-      row.insertCell(i).innerHTML = newCellInnerHTML;
-    }
+    });
   });
 }
 
