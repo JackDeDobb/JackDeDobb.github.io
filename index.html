@@ -186,46 +186,10 @@ END footballApplication index.html-->
 		</div>
   </div>
   <p>
-    <label># Funny Votes: Min</label>
-    <select id="yAxisDropDown" onchange="handleDropDown(false, this.value);">
-      <option value="G">Games Played</option>
-      <option value="GS">Games Started</option>
-      <option value="Cmp">Completions</option>
-      <option value="Att">Attempts</option>
-      <option value="Cmp%">Completion %</option>
-      <option value="Yds" selected="selected">Yards</option>
-      <option value="TD">TouchDowns</option>
-      <option value="TD%">TouchDowns %</option>
-      <option value="Int">Interceptions</option>
-      <option value="Int%">Interceptions %</option>
-      <option value="1D">First Downs</option>
-      <option value="Lng">Longest Pass</option>
-      <option value="Y/A">Yards / Attempt</option>
-      <option value="Y/G">Yards / Game</option>
-      <option value="Rate">Rating</option>
-      <option value="Sk">Sacks</option>
-    </select>
+    <label># Funny Votes:     Min</label>
+    <input id="funnyVotesMin" type="number" value="0" min="0">
     <label>Max</label>
-    <select id="xAxisDropDown" onchange="handleDropDown(true, this.value);">
-      <option value="G">Games Played</option>
-      <option value="GS">Games Started</option>
-      <option value="Cmp">Completions</option>
-      <option value="Att">Attempts</option>
-      <option value="Cmp%">Completion %</option>
-      <option value="Yds">Yards</option>
-      <option value="TD" selected="selected">TouchDowns</option>
-      <option value="TD%">TouchDowns %</option>
-      <option value="Int">Interceptions</option>
-      <option value="Int%">Interceptions %</option>
-      <option value="1D">First Downs</option>
-      <option value="Lng">Longest Pass</option>
-      <option value="Y/A">Yards / Attempt</option>
-      <option value="Y/G">Yards / Game</option>
-      <option value="Rate">Rating</option>
-      <option value="Sk">Sacks</option>
-    </select>
-    <label>Swap Axes:</label>
-    <button type="button" onclick="swapAxes();">Swap</button>
+    <input id="funnyVotesMax" type="number" value="10">
  </p>
   <p>
     <label>Y-Axis:</label>
