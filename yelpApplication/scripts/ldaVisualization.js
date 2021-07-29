@@ -346,9 +346,48 @@ function addRowsToExampleReviewsTable(tableReference) {
     });
   });
 
-  // TODO: append dataArr to table
+  dataArr.forEach(function(dataItem) {
+    var rowCount = tableReference.rows.length;
+    var colCount = tableReference.rows[0].cells.length;
 
+    var row = tableReference.insertRow(rowCount);
+    for (var i = 0; i < colCount; i++) {
+      var newCellInnerHTML = null;
+      var columnHeader = tableReference.rows[0].cells[i].innerHTML;
+      switch (columnHeader) {
+        case 'Star Rating': {
+          newCellInnerHTML = dataItem['starRating'];
+          break;
+        } case '# Funny Votes': {
+          newCellInnerHTML = dataItem['numFunnyVotes'];
+          break;
+        } case '# Cool Votes': {
+          newCellInnerHTML = dataItem['numCoolVotes'];
+          break;
+        } case '# Useful Votes': {
+          newCellInnerHTML = dataItem['numUsefulVotes'];
+          break;
+        } case 'User ID': {
+          newCellInnerHTML = dataItem['userID'];
+          break;
+        } case 'Review ID': {
+          newCellInnerHTML = dataItem['reviewID'];
+          break;
+        } case 'Business ID': {
+          newCellInnerHTML = dataItem['businessID'];
+          break;
+        } case 'Date': {
+          newCellInnerHTML = dataItem['date'];
+          break;
+        } case 'Review Text': {
+          newCellInnerHTML = dataItem['text'];
+          break;
+        }
+      }
 
+      row.insertCell(i).innerHTML = newCellInnerHTML;
+    }
+  });
 }
 
 function runLDA() {
