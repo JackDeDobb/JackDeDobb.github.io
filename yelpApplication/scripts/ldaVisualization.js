@@ -45,9 +45,12 @@ async function init() {
   d3.selectAll('img').on('click', handleYearChange);
 
   // LDA Visualization Code below
-  dateWrittenMin.max = new Date().toISOString().split('T')[0];
-  dateWrittenMax.max = new Date().toISOString().split('T')[0];
-  dateWrittenMax.value = new Date().toISOString().split('T')[0];
+  var currentDate = new Date().toISOString().split('T')[0];
+  dateWrittenMin.max = currentDate;
+  dateWrittenMax.max = currentDate;
+  dateWrittenMax.value = currentDate;
+
+  addRowsToExampleReviewsTable(exampleReviewsTable);
 }
 
 function renderGraphs(year) {
@@ -322,6 +325,32 @@ function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
 
 
 // LDA Visualization functions below
+function addRowsToExampleReviewsTable(tableReference) {
+  var firstJsonFile = d3.text('https://jackdedobb.github.io/yelpApplication/data/yelp_academic_dataset_review00.json');
+  var dataArr = [];
+  Promise.resolve(firstJsonFile).then(function(result) {
+    var lines = result.split('\n').slice(0, 20);
+    lines.forEach(function(line) {
+      var parsedLine = JSON.parse(line);
+      dataArr.push({
+        starRating:     parsedLine['stars'],
+        numFunnyVotes:  parsedLine['votes']['funny'],
+        numCoolVotes:   parsedLine['votes']['cool'],
+        numUsefulVotes: parsedLine['votes']['useful'],
+        userID:         parsedLine['user_id'],
+        reviewID:       parsedLine['review_id'],
+        businessID:     parsedLine['business_id'],
+        date:           parsedLine['date'],
+        text:           parsedLine['text']
+      });
+    });
+  });
+
+  // TODO: append dataArr to table
+
+
+}
+
 function runLDA() {
 
 }
