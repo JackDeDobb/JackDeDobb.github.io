@@ -43,6 +43,10 @@ async function init() {
   });
 
   d3.selectAll('img').on('click', handleYearChange);
+
+  // LDA Visualization Code below
+  dateWrittenMin.max = new Date().toISOString().split('T')[0];
+  dateWrittenMax.max = new Date().toISOString().split('T')[0];
 }
 
 function renderGraphs(year) {

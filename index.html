@@ -186,11 +186,35 @@ END footballApplication index.html-->
 		</div>
   </div>
   <p>
-    <label># Funny Votes:     Min</label>
-    <input id="funnyVotesMin" type="number" value="0" min="0">
+    <label># Funny Votes: Min</label>
+    <input id="funnyVotesMin" type="number" min="0" value="0">
     <label>Max</label>
-    <input id="funnyVotesMax" type="number" value="10">
- </p>
+    <input id="funnyVotesMax" type="number" min="0" value="10">
+  </p>
+  <p>
+    <label># Cool Votes: Min</label>
+    <input id="coolVotesMin" type="number" min="0" value="0">
+    <label>Max</label>
+    <input id="coolVotesMax" type="number" min="0" value="10">
+  </p>
+  <p>
+    <label># Useful Votes: Min</label>
+    <input id="usefulVotesMin" type="number" min="0" value="0">
+    <label>Max</label>
+    <input id="usefulVotesMax" type="number" min="0" value="10">
+  </p>
+  <p>
+    <label>Star Rating: Min</label>
+    <input id="starRatingMin" type="number" min="1" max="5" value="1">
+    <label>Max</label>
+    <input id="starRatingMax" type="number" min="1" max="5" value="5">
+  </p>
+  <p>
+    <label>Date Written: Min</label>
+    <input id="dateWrittenMin" type="date" name="trip-start" min="2004-06-01" value="2018-07-22">
+    <label>Max</label>
+    <input id="dateWrittenMax" type="date" name="trip-start" min="2004-06-01" value="2018-07-22">
+  </p>
   <p>
     <label>Y-Axis:</label>
     <select id="yAxisDropDown" onchange="handleDropDown(false, this.value);">
