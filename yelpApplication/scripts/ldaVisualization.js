@@ -326,7 +326,7 @@ function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
 
 // LDA Visualization functions below
 function addRowsToExampleReviewsTable(tableReference) {
-  var firstJsonFile = d3.text('https://jackdedobb.github.io/yelpApplication/data/yelp_academic_dataset_review00.json');
+  var firstJsonFile = d3.text('https://jackdedobb.github.io/yelpApplication/data/exampleReviews.json');
   var rowCount = tableReference.rows.length;
   var colCount = tableReference.rows[0].cells.length;
 
