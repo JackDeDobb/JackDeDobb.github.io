@@ -331,7 +331,7 @@ function addRowsToExampleReviewsTable(tableReference) {
   var colCount = tableReference.rows[0].cells.length;
 
   Promise.resolve(firstJsonFile).then(function(result) {
-    var lines = result.split('\n').slice(0, 20);
+    var lines = result.split('\n').slice(0, 15);
     lines.forEach(function(line) {
       var parsedLine = JSON.parse(line);
       var dataItem = {
