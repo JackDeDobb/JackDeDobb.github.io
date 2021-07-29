@@ -322,3 +322,6 @@ function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
 
 
 // LDA Visualization functions below
+function runLDA() {
+
+}

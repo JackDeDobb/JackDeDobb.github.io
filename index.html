@@ -186,6 +186,15 @@ END footballApplication index.html-->
 		</div>
   </div>
   <p>
+		<h1> Filter Reviews to Run LDA on </h1>
+	</p>
+  <p>
+    <label>Star Rating: Min</label>
+    <input id="starRatingMin" type="number" min="1" max="5" value="1">
+    <label>Max</label>
+    <input id="starRatingMax" type="number" min="1" max="5" value="5">
+  </p>
+  <p>
     <label># Funny Votes: Min</label>
     <input id="funnyVotesMin" type="number" min="0" value="0">
     <label>Max</label>
@@ -204,16 +213,14 @@ END footballApplication index.html-->
     <input id="usefulVotesMax" type="number" min="0" value="10">
   </p>
   <p>
-    <label>Star Rating: Min</label>
-    <input id="starRatingMin" type="number" min="1" max="5" value="1">
-    <label>Max</label>
-    <input id="starRatingMax" type="number" min="1" max="5" value="5">
-  </p>
-  <p>
     <label>Date Written: Min</label>
     <input id="dateWrittenMin" type="date" name="trip-start" min="2004-06-01" value="2004-06-01">
     <label>Max</label>
     <input id="dateWrittenMax" type="date" name="trip-start" min="2004-06-01">
+  </p>
+  <p>
+    <label>Run LDA on Filtered Reviews:</label>
+    <button type="button" onclick="runLDA();">Run LDA</button>
   </p>
   <p>
     <label>Y-Axis:</label>
