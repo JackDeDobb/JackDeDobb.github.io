@@ -47,6 +47,7 @@ async function init() {
   // LDA Visualization Code below
   dateWrittenMin.max = new Date().toISOString().split('T')[0];
   dateWrittenMax.max = new Date().toISOString().split('T')[0];
+  dateWrittenMax.value = new Date().toISOString().split('T')[0];
 }
 
 function renderGraphs(year) {
