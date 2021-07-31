@@ -43,9 +43,19 @@ def getInputParameters():
   }
 
 
+def getDataThatMatchesInputParameters(inputParameters):
+  folderLocationOfDataFiles = 'https://github.com/JackDeDobb/JackDeDobb.github.io/yelpApplication/data/'
+  dataLocationFiles = [folderLocationOfDataFiles + 'yelp_academic_dataset_review' + '{:02d}'.format(idx) + '.json' for idx in range(0, 21)]
+
+
+
+  return dataLocationFiles
+
+
 @app.route('/')
 def runLDAGivenInputParameters():
-  retVal = getInputParameters()
+  inputParameters = getInputParameters()
+  retVal = getDataThatMatchesInputParameters(inputParameters)
   
   time.sleep(1)
   return createParsableJSONResponse(retVal)
