@@ -18,10 +18,16 @@ def createParsableJSONResponse(value):
 
 def getInputParameters():
   def castToIntIfExists(value):
-    return int(value) if (value != None) else None
+    try:
+      return int(value) if (value != None) else None
+    except:
+      return None
 
   def parseDateTimeFromString(value):
-    return datetime.datetime.strptime(value, '%Y-%m-%d') if (value != None) else None
+    try:
+      return datetime.datetime.strptime(value, '%Y-%m-%d') if (value != None) else None
+    except:
+      return None
 
   return {
     'starRatingMin':  castToIntIfExists(request.args.get('starRatingMin'))  or 1,

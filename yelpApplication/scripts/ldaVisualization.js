@@ -329,10 +329,6 @@ async function getResponseFromBackEnd(url, jsonRequestParameters) {
   if (jsonRequestParameters && Object.keys(jsonRequestParameters).length > 0) {
     url += '?' + Object.keys(jsonRequestParameters).map(x => x + '=' + jsonRequestParameters[x]).join('&')
   }
-  url += (Object.keys(jsonRequestParameters).length > 0)? '?' : '';
-  Object.keys(jsonRequestParameters).forEach(function(jsonRequestParameterKey) {
-    url += jsonRequestParameterKey + '=' + jsonRequestParameters[jsonRequestParameterKey];
-  });
 
   var response = null;
   await fetch(url)
