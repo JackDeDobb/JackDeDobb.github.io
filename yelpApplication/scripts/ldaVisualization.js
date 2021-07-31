@@ -334,17 +334,6 @@ function addRowsToExampleReviewsTable(tableReference) {
     var lines = result.split('\n').slice(0, 15);
     lines.forEach(function(line) {
       var parsedLine = JSON.parse(line);
-      var dataItem = {
-        starRating:     parsedLine['stars'],
-        numFunnyVotes:  parsedLine['votes']['funny'],
-        numCoolVotes:   parsedLine['votes']['cool'],
-        numUsefulVotes: parsedLine['votes']['useful'],
-        userID:         parsedLine['user_id'],
-        reviewID:       parsedLine['review_id'],
-        businessID:     parsedLine['business_id'],
-        date:           parsedLine['date'],
-        text:           parsedLine['text']
-      };
 
       var row = tableReference.insertRow(rowCount);
       for (var i = 0; i < colCount; i++) {
@@ -352,37 +341,36 @@ function addRowsToExampleReviewsTable(tableReference) {
         var columnHeader = tableReference.rows[0].cells[i].innerHTML;
         switch (columnHeader) {
           case 'Star Rating': {
-            newCellInnerHTML = dataItem['starRating'];
+            newCellInnerHTML = parsedLine['stars'];
             break;
           } case '# Funny Votes': {
-            newCellInnerHTML = dataItem['numFunnyVotes'];
+            newCellInnerHTML = parsedLine['votes']['funny'];
             break;
           } case '# Cool Votes': {
-            newCellInnerHTML = dataItem['numCoolVotes'];
+            newCellInnerHTML = parsedLine['votes']['cool'];
             break;
           } case '# Useful Votes': {
-            newCellInnerHTML = dataItem['numUsefulVotes'];
+            newCellInnerHTML = parsedLine['votes']['useful'];
             break;
           } case 'User ID': {
-            newCellInnerHTML = dataItem['userID'];
+            newCellInnerHTML = parsedLine['user_id'];
             break;
           } case 'Review ID': {
-            newCellInnerHTML = dataItem['reviewID'];
+            newCellInnerHTML = parsedLine['review_id'];
             break;
           } case 'Business ID': {
-            newCellInnerHTML = dataItem['businessID'];
+            newCellInnerHTML = parsedLine['business_id'];
             break;
           } case 'Date': {
-            newCellInnerHTML = dataItem['date'];
+            newCellInnerHTML = parsedLine['date'];
             break;
           } case 'Review Text': {
-            newCellInnerHTML = dataItem['text'];
+            newCellInnerHTML = parsedLine['text'];
             break;
           }
         }
         row.insertCell(i).innerHTML = newCellInnerHTML;
       }
-
     });
   });
 }
