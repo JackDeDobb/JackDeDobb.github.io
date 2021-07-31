@@ -325,6 +325,19 @@ function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
 
 
 // LDA Visualization functions below
+async function getResponseFromBackEnd(url) {
+  var response = null;
+  await fetch(url)
+        .then(function(response) {
+          return response.json();
+        }).then(function(data) {
+          response = data.value;
+        });
+
+  return response;
+}
+
+
 function addRowsToExampleReviewsTable(tableReference) {
   var firstJsonFile = d3.text('https://jackdedobb.github.io/yelpApplication/data/exampleReviews.json');
   var rowCount = tableReference.rows.length;
@@ -375,6 +388,9 @@ function addRowsToExampleReviewsTable(tableReference) {
   });
 }
 
+
 function runLDA() {
+  var urlOfHostedBackendPythonCode = 'http://127.0.0.1:5000';
+  var promiseFromBackendCall = getResponseFromBackEnd(urlOfHostedBackendPythonCode);
 
 }
