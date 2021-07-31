@@ -27,11 +27,11 @@ def getInputParameters():
     'starRatingMin':  castToIntIfExists(request.args.get('starRatingMin'))  or 1,
     'starRatingMax':  castToIntIfExists(request.args.get('starRatingMax'))  or 5,
     'funnyVotesMin':  castToIntIfExists(request.args.get('funnyVotesMin'))  or 0,
-    'funnyVotesMax':  castToIntIfExists(request.args.get('funnyVotesMax'))  or math.inf,
+    'funnyVotesMax':  castToIntIfExists(request.args.get('funnyVotesMax'))  or 999999999, # TODO: Flip back to Infinity
     'coolVotesMin':   castToIntIfExists(request.args.get('coolVotesMin'))   or 0,
-    'coolVotesMax':   castToIntIfExists(request.args.get('coolVotesMax'))   or math.inf,
+    'coolVotesMax':   castToIntIfExists(request.args.get('coolVotesMax'))   or 999999999, # TODO: Flip back to Infinity
     'usefulVotesMin': castToIntIfExists(request.args.get('usefulVotesMin')) or 0,
-    'usefulVotesMax': castToIntIfExists(request.args.get('usefulVotesMax')) or math.inf,
+    'usefulVotesMax': castToIntIfExists(request.args.get('usefulVotesMax')) or 999999999, # TODO: Flip back to Infinity
     'dateWrittenMin': parseDateTimeFromString(request.args.get('dateWrittenMin')) or datetime.datetime(2004, 6, 1),
     'dateWrittenMax': parseDateTimeFromString(request.args.get('dateWrittenMax')) or datetime.datetime.now()
   }

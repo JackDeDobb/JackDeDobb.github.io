@@ -325,7 +325,12 @@ function sumLeastSquared(yDataPoints, xDataPoints, m, b) {
 
 
 // LDA Visualization functions below
-async function getResponseFromBackEnd(url) {
+async function getResponseFromBackEnd(url, jsonRequestParameters) {
+  url += (Object.keys(jsonRequestParameters).length > 0)? '?' : '';
+  Object.keys(jsonRequestParameters).forEach(function(jsonRequestParameterKey) {
+    url += jsonRequestParameterKey + '=' + jsonRequestParameters[jsonRequestParameterKey];
+  });
+
   var response = null;
   await fetch(url)
         .then(function(response) {
@@ -391,6 +396,18 @@ function addRowsToExampleReviewsTable(tableReference) {
 
 function runLDA() {
   var urlOfHostedBackendPythonCode = 'http://127.0.0.1:5000';
-  var promiseFromBackendCall = getResponseFromBackEnd(urlOfHostedBackendPythonCode);
+  var jsonRequestParameters = {
+    'starRatingMin':  starRatingMin.value,
+    'starRatingMax':  starRatingMax.value,
+    'funnyVotesMin':  funnyVotesMin.value,
+    'funnyVotesMax':  funnyVotesMax.value,
+    'coolVotesMin':   coolVotesMin.value,
+    'coolVotesMax':   coolVotesMax.value,
+    'usefulVotesMin': usefulVotesMin.value,
+    'usefulVotesMax': usefulVotesMax.value,
+    'dateWrittenMin': dateWrittenMin.value,
+    'dateWrittenMax': dateWrittenMax.value,
+  }
+  var promiseFromBackendCall = getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
 
 }
