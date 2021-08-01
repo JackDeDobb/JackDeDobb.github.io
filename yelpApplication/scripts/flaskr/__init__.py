@@ -1,3 +1,4 @@
+import base64
 import datetime
 import gensim
 import io
@@ -186,6 +187,18 @@ def fig2data ( fig ):
   return buf
 
 
+def fig2img ( fig ):
+  """
+  @brief Convert a Matplotlib figure to a PIL Image in RGBA format and return it
+  @param fig a matplotlib figure
+  @return a Python Imaging Library ( PIL ) image
+  """
+  # put the figure pixmap into a numpy array
+  buf = fig2data ( fig )
+  w, h, d = buf.shape
+  return Image.fromstring( "RGBA", ( w ,h ), buf.tostring( ) )
+
+
 @app.route('/')
 def runLDAGivenInputParameters():
   # nltk.download('stopwords') # Comment back in, if need to download stopwords
@@ -196,6 +209,60 @@ def runLDAGivenInputParameters():
 
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords)
   ldaVisualization = getLDAVisualizationFromDataArr(dataArrSegment, numberTopics)
+
+
+  outputLDAVisualization = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(outputLDAVisualization)
+  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('ascii')
+  # decodedLDAVisualization = base64.b64decode(encodedLDAVisualization.encode('ascii'))
+  # image = Image.open(io.BytesIO(decodedLDAVisualization))
+  # image.show()
+
+  return createParsableJSONResponse({
+    'topicGraphs': encodedLDAVisualization,
+    'wordCloud': 69
+  })
+
+
+
+
+
+  # image = Image.open(io.BytesIO(imagesBytes))
+  # image.show()
+
+  b = createParsableJSONResponse({
+    'topicGraphs': encoded,
+    'wordCloud': 69
+  })
+
+  return b
+
+  # output = io.BytesIO()
+  # FigureCanvas(ldaVisualization).print_png(output)
+  # return Response(output.getvalue(), mimetype='image/png')
+
+  output = io.BytesIO()
+  # print(type(output))
+  FigureCanvas(ldaVisualization).print_png(output)
+  # print(type(output.getvalue()))
+  # print(output.getvalue())
+  a = Response(output.getvalue(), mimetype='image/png')
+  # print(type(a))
+
+  imagesBytes = output.getvalue()
+
+  image = Image.open(io.BytesIO(imagesBytes))
+  # image.show()
+
+  b = createParsableJSONResponse({
+    'topicGraphs': imagesBytes,
+    'wordCloud': 69
+  })
+
+  return b
+
+
+  return fig2img(ldaVisualization)
 
   # output = io.BytesIO()
   # FigureCanvas(ldaVisualization).print_png(output)

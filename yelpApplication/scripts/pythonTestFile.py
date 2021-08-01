@@ -1,3 +1,4 @@
+import base64
 import datetime
 import gensim
 import io
@@ -177,7 +178,7 @@ def fig2data ( fig ):
 
   # Get the RGBA buffer from the figure
   w,h = fig.canvas.get_width_height()
-  buf = np.fromstring ( fig.canvas.tostring_argb(), dtype=np.uint8 )
+  buf = np.frombuffer ( fig.canvas.tostring_argb(), dtype=np.uint8 )
   buf.shape = ( w, h,4 )
 
   # canvas.tostring_argb give pixmap in ARGB mode. Roll the ALPHA channel to have it in RGBA mode
@@ -213,8 +214,49 @@ def runLDAGivenInputParameters():
   # uf = canvas.buffer_rgba()
   # X = np.asarray(buf)
 
+  # output = io.BytesIO()
+  # FigureCanvas(ldaVisualization).print_png(output)
+  # return Response(output.getvalue(), mimetype='image/png')
+
+  # output = io.BytesIO()
+  # FigureCanvas(ldaVisualization).print_png(output)
+  # return Response(output.getvalue(), mimetype='image/png')
+
+  outputLDAVisualization = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(outputLDAVisualization)
+  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('ascii')
+  print(type(encodedLDAVisualization.encode('ascii')))
+  decodedLDAVisualization = base64.b64decode(encodedLDAVisualization.encode('ascii'))
+  print(encodedLDAVisualization.encode('ascii')[:300])
+  print(base64.b64decode(encodedLDAVisualization.encode('ascii'))[:300])
+  # image = Image.open(io.BytesIO(decodedLDAVisualization))
+  # image.show()
+
   return createParsableJSONResponse({
-    'topicGraphs': fig2data(ldaVisualization).tolist(),
+    'topicGraphs': encodedLDAVisualization,
+    'wordCloud': 69
+  })
+
+
+
+  img1 = Image.frombytes('RGB', ldaVisualization.canvas.get_width_height(), ldaVisualization.canvas.tostring_rgb())
+  img1.save('hererandom.png')
+  img1.show()
+
+
+
+  retTopicGraphs = fig2data(ldaVisualization)
+  print(type(retTopicGraphs))
+
+  img_w, img_h = 2560, 1600
+  # data = np.zeros((img_h, img_w, 4), dtype=np.uint8)
+  # data[100, 100] = [255, 0, 0]
+  img = Image.fromarray(retTopicGraphs, 'RGBA')
+  img.save('test.png')
+  img.show()
+
+  return createParsableJSONResponse({
+    'topicGraphs': retTopicGraphs,
     'wordCloud': 69
   })
 
