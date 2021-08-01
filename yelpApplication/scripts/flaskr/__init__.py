@@ -23,11 +23,13 @@ from PIL import Image
 from pprint import pprint
 from wordcloud import WordCloud, STOPWORDS
 
+
 class NumpyEncoder(json.JSONEncoder):
   def default(self, obj):
     if isinstance(obj, np.ndarray):
       return obj.tolist()
     return json.JSONEncoder.default(self, obj)
+
 
 matplotlib.use('Agg')
 app = Flask(__name__)
