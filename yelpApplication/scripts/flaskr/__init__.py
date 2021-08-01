@@ -13,14 +13,21 @@ import re
 import os
 import requests
 import time
+from base64 import encodebytes
 from collections import Counter
 from flask import Flask, jsonify, make_response, Response, request
 from flask_cors import CORS
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from PIL import Image
 from pprint import pprint
 from wordcloud import WordCloud, STOPWORDS
 
+class NumpyEncoder(json.JSONEncoder):
+  def default(self, obj):
+    if isinstance(obj, np.ndarray):
+      return obj.tolist()
+    return json.JSONEncoder.default(self, obj)
 
 matplotlib.use('Agg')
 app = Flask(__name__)
@@ -158,6 +165,25 @@ def getLDAVisualizationFromDataArr(dataArrSegment, numberTopics):
   return ldaVisualization
 
 
+def fig2data ( fig ):
+  """
+  @brief Convert a Matplotlib figure to a 4D numpy array with RGBA channels and return it
+  @param fig a matplotlib figure
+  @return a numpy 3D array of RGBA values
+  """
+  # draw the renderer
+  fig.canvas.draw ( )
+
+  # Get the RGBA buffer from the figure
+  w,h = fig.canvas.get_width_height()
+  buf = np.fromstring ( fig.canvas.tostring_argb(), dtype=np.uint8 )
+  buf.shape = ( w, h,4 )
+
+  # canvas.tostring_argb give pixmap in ARGB mode. Roll the ALPHA channel to have it in RGBA mode
+  buf = np.roll ( buf, 3, axis = 2 )
+  return buf
+
+
 @app.route('/')
 def runLDAGivenInputParameters():
   # nltk.download('stopwords') # Comment back in, if need to download stopwords
@@ -174,7 +200,23 @@ def runLDAGivenInputParameters():
   # return Response(output.getvalue(), mimetype='image/png')
   # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
 
-  return createParsableJSONResponse(ldaVisualization)
+
+  # canvas = FigureCanvas(ldaVisualization)
+  # ax = ldaVisualization.gca()
+  # ax.text(0.0,0.0, 'Test', fontsize=45)
+  # ax.axis('off')
+  # canvas.draw()       # draw the canvas, cache the renderer
+  # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
+  # json_dump = json.dumps(image, cls=NumpyEncoder)
+
+  # canvas.draw()
+  # uf = canvas.buffer_rgba()
+  # X = np.asarray(buf)
+
+  return createParsableJSONResponse({
+    'topicGraphs': json.dumps(fig2data(ldaVisualization), cls=NumpyEncoder),
+    'wordCloud': 69
+  })
 
 
 if __name__ == '__main__':
