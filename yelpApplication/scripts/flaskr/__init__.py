@@ -18,19 +18,21 @@ def createParsableJSONResponse(value):
   return { 'value': value }
 
 
+def castToIntIfExists(value):
+  try:
+    return int(value) if (value != None) else None
+  except:
+    return None
+
+
+def parseDateTimeFromString(value):
+  try:
+    return datetime.datetime.strptime(value, '%Y-%m-%d') if (value != None) else None
+  except:
+    return None
+
+
 def getInputParameters():
-  def castToIntIfExists(value):
-    try:
-      return int(value) if (value != None) else None
-    except:
-      return None
-
-  def parseDateTimeFromString(value):
-    try:
-      return datetime.datetime.strptime(value, '%Y-%m-%d') if (value != None) else None
-    except:
-      return None
-
   return {
     'starRatingMin':  castToIntIfExists(request.args.get('starRatingMin'))  or 1,
     'starRatingMax':  castToIntIfExists(request.args.get('starRatingMax'))  or 5,
@@ -46,7 +48,16 @@ def getInputParameters():
 
 
 def checkIfRowPassesInputConditions(inputParameters, row):
-  return True
+  parseDate = parseDateTimeFromString(row['date'])
+
+  retBool = True
+  retBool &= (row['stars'] >= inputParameters['starRatingMin'] and row['stars'] <= inputParameters['starRatingMax'])
+  retBool &= (row['votes']['funny'] >= inputParameters['funnyVotesMin'] and row['votes']['funny'] <= inputParameters['funnyVotesMax'])
+  retBool &= (row['votes']['cool'] >= inputParameters['coolVotesMin'] and row['votes']['cool'] <= inputParameters['coolVotesMax'])
+  retBool &= (row['votes']['useful'] >= inputParameters['usefulVotesMin'] and row['votes']['useful'] <= inputParameters['usefulVotesMax'])
+  retBool &= (parseDate >= inputParameters['dateWrittenMin'] and parseDate <= inputParameters['dateWrittenMax'])
+
+  return retBool
 
 
 def getDataThatMatchesInputParameters(inputParameters):
@@ -66,10 +77,7 @@ def getDataThatMatchesInputParameters(inputParameters):
     if (len(recordsThatMatch) >= maxRecordsToPullIn):
       break
 
-  print(recordsThatMatch)
-
-
-  return dataLocationFiles
+  return recordsThatMatch
 
 
 @app.route('/')
