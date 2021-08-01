@@ -1,3 +1,4 @@
+import base64
 import datetime
 import gensim
 import io
@@ -22,13 +23,6 @@ from matplotlib.figure import Figure
 from PIL import Image
 from pprint import pprint
 from wordcloud import WordCloud, STOPWORDS
-
-
-class NumpyEncoder(json.JSONEncoder):
-  def default(self, obj):
-    if isinstance(obj, np.ndarray):
-      return obj.tolist()
-    return json.JSONEncoder.default(self, obj)
 
 
 matplotlib.use('Agg')
@@ -166,25 +160,6 @@ def getLDAVisualizationFromDataArr(dataArrSegment, numberTopics):
   return ldaVisualization
 
 
-def fig2data ( fig ):
-  """
-  @brief Convert a Matplotlib figure to a 4D numpy array with RGBA channels and return it
-  @param fig a matplotlib figure
-  @return a numpy 3D array of RGBA values
-  """
-  # draw the renderer
-  fig.canvas.draw ( )
-
-  # Get the RGBA buffer from the figure
-  w,h = fig.canvas.get_width_height()
-  buf = np.fromstring ( fig.canvas.tostring_argb(), dtype=np.uint8 )
-  buf.shape = ( w, h,4 )
-
-  # canvas.tostring_argb give pixmap in ARGB mode. Roll the ALPHA channel to have it in RGBA mode
-  buf = np.roll ( buf, 3, axis = 2 )
-  return buf
-
-
 def runLDAGivenInputParameters():
   # nltk.download('stopwords') # Comment back in, if need to download stopwords
   stopWords = nltk.corpus.stopwords.words('english')
@@ -209,12 +184,12 @@ def runLDAGivenInputParameters():
   # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
   # json_dump = json.dumps(image, cls=NumpyEncoder)
 
-  # canvas.draw()
-  # uf = canvas.buffer_rgba()
-  # X = np.asarray(buf)
+  outputLDAVisualization = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(outputLDAVisualization)
+  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('utf-8')
 
   return createParsableJSONResponse({
-    'topicGraphs': fig2data(ldaVisualization).tolist(),
+    'topicGraphs': encodedLDAVisualization,
     'wordCloud': 69
   })
 
