@@ -1,5 +1,6 @@
 import datetime
 import gensim
+import io
 import json
 import math
 import matplotlib
@@ -13,8 +14,7 @@ import os
 import requests
 import time
 from collections import Counter
-from flask import Flask
-from flask import request
+from flask import Flask, jsonify, make_response, Response, request
 from flask_cors import CORS
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -167,10 +167,14 @@ def runLDAGivenInputParameters():
   numberTopics = 9
 
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords)
-  retVal = getLDAVisualizationFromDataArr(dataArrSegment, numberTopics)
+  ldaVisualization = getLDAVisualizationFromDataArr(dataArrSegment, numberTopics)
 
+  # output = io.BytesIO()
+  # FigureCanvas(ldaVisualization).print_png(output)
+  # return Response(output.getvalue(), mimetype='image/png')
+  # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
 
-  return createParsableJSONResponse(retVal)
+  return createParsableJSONResponse(ldaVisualization)
 
 
 if __name__ == '__main__':
