@@ -212,20 +212,6 @@ def runLDAGivenInputParameters():
   # canvas.draw()
   # uf = canvas.buffer_rgba()
   # X = np.asarray(buf)
-  print(type(ldaVisualization))
-  print(type(fig2data(ldaVisualization)))
-  # print(type(json.dumps(fig2data(ldaVisualization), cls=NumpyEncoder)))
-  print(type(fig2data(ldaVisualization).tolist()))
-  print(type(fig2data(ldaVisualization).tolist()[0]))
-
-  tester = fig2data(ldaVisualization)
-  print(tester.shape)
-  print(tester)
-
-  print(createParsableJSONResponse({
-    'topicGraphs': fig2data(ldaVisualization).tolist(),
-    'wordCloud': 69
-  }))
 
   return createParsableJSONResponse({
     'topicGraphs': fig2data(ldaVisualization).tolist(),
