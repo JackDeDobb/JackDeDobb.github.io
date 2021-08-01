@@ -25,13 +25,6 @@ from pprint import pprint
 from wordcloud import WordCloud, STOPWORDS
 
 
-class NumpyEncoder(json.JSONEncoder):
-  def default(self, obj):
-    if isinstance(obj, np.ndarray):
-      return obj.tolist()
-    return json.JSONEncoder.default(self, obj)
-
-
 matplotlib.use('Agg')
 
 
@@ -196,23 +189,10 @@ def runLDAGivenInputParameters():
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords)
   ldaVisualization = getLDAVisualizationFromDataArr(dataArrSegment, numberTopics)
 
-  # output = io.BytesIO()
-  # FigureCanvas(ldaVisualization).print_png(output)
-  # return Response(output.getvalue(), mimetype='image/png')
-  # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
 
-
-  # canvas = FigureCanvas(ldaVisualization)
-  # ax = ldaVisualization.gca()
-  # ax.text(0.0,0.0, 'Test', fontsize=45)
-  # ax.axis('off')
-  # canvas.draw()       # draw the canvas, cache the renderer
-  # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
-  # json_dump = json.dumps(image, cls=NumpyEncoder)
-
-  # canvas.draw()
-  # uf = canvas.buffer_rgba()
-  # X = np.asarray(buf)
+  outputLDAVisualization = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(outputLDAVisualization)
+  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('utf-8')
 
   # output = io.BytesIO()
   # FigureCanvas(ldaVisualization).print_png(output)

@@ -232,7 +232,7 @@ function updateGraphs(year, xAxisVariable, yAxisVariable, speed) {
 
 function handleYearChange() {
   var id = this.id;
-  d3.selectAll('img').each(function() {
+  d3.selectAll('img').filter((_, idx) => idx <= 9).each(function() {
     d3.select(this).style('opacity', (this.id == id)? '1' : '.5')
                    .style('border', ((this.id == id)? '8px solid green' : '4px solid black'));
   });
@@ -434,18 +434,11 @@ function runLDA() {
     }
   }
   ctx.putImageData(imgData, 0, 0);
+  };
+  var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
 
 
-
-  var ctx = document.getElementById('ldaTopicGraphsCanvas').getContext('2d');
-  var imgData = ctx.createImageData(2560, 1600);
-  for (var i = 0; i < imgData.data.length; i += 4) {
-    imgData.data[i+0] = 255;
-    imgData.data[i+1] = 0;
-    imgData.data[i+2] = 0;
-    imgData.data[i+3] = 255;
-  }
-  ctx.putImageData(imgData, 0, 0);
+  ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
 }
 
 

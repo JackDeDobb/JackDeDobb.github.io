@@ -25,13 +25,6 @@ from pprint import pprint
 from wordcloud import WordCloud, STOPWORDS
 
 
-class NumpyEncoder(json.JSONEncoder):
-  def default(self, obj):
-    if isinstance(obj, np.ndarray):
-      return obj.tolist()
-    return json.JSONEncoder.default(self, obj)
-
-
 matplotlib.use('Agg')
 app = Flask(__name__)
 CORS(app)
@@ -278,12 +271,12 @@ def runLDAGivenInputParameters():
   # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
   # json_dump = json.dumps(image, cls=NumpyEncoder)
 
-  # canvas.draw()
-  # uf = canvas.buffer_rgba()
-  # X = np.asarray(buf)
+  outputLDAVisualization = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(outputLDAVisualization)
+  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('utf-8')
 
   return createParsableJSONResponse({
-    'topicGraphs': fig2data(ldaVisualization).tolist(),
+    'topicGraphs': encodedLDAVisualization,
     'wordCloud': 69
   })
 
