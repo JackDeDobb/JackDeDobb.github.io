@@ -393,7 +393,7 @@ function addRowsToExampleReviewsTable(tableReference) {
 }
 
 
-function runLDA() {
+async function runLDA() {
   var urlOfHostedBackendPythonCode = 'http://127.0.0.1:5000';
   var jsonRequestParameters = {
     'starRatingMin':  starRatingMin.value,
