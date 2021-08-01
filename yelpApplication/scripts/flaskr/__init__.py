@@ -216,7 +216,7 @@ def runLDAGivenInputParameters():
   # X = np.asarray(buf)
 
   return createParsableJSONResponse({
-    'topicGraphs': json.dumps(fig2data(ldaVisualization), cls=NumpyEncoder),
+    'topicGraphs': fig2data(ldaVisualization).tolist(),
     'wordCloud': 69
   })
 

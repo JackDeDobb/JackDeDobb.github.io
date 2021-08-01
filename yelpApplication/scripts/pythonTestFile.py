@@ -92,14 +92,15 @@ def parseAndCleanTextIntoWords(text, stopWords):
 
 
 def getDataThatMatchesInputParameters(inputParameters, stopWords):
-  folderLocationOfDataFiles = 'https://raw.githubusercontent.com/JackDeDobb/JackDeDobb.github.io/master/yelpApplication/data/'
+  scriptDirectory = os.path.dirname(os.path.realpath(__file__))
+  folderLocationOfDataFiles = scriptDirectory + '/../data/'
   dataLocationFiles = [folderLocationOfDataFiles + 'yelp_academic_dataset_review' + '{:02d}'.format(idx) + '.json' for idx in range(0, 21)]
 
   maxRecordsToPullIn = 10
   recordsThatMatch = []
   for dataLocationFile in dataLocationFiles:
-    textFile = requests.get(dataLocationFile).text
-    for line in textFile.split('\n'):
+    textFile = open(dataLocationFile)
+    for line in list(textFile):
       jsonParsedLine = json.loads(line)
       if (checkIfRowPassesInputConditions(inputParameters, jsonParsedLine)):
         jsonParsedLine['textProcessed'] = parseAndCleanTextIntoWords(jsonParsedLine['text'], stopWords)
@@ -211,9 +212,23 @@ def runLDAGivenInputParameters():
   # canvas.draw()
   # uf = canvas.buffer_rgba()
   # X = np.asarray(buf)
+  print(type(ldaVisualization))
+  print(type(fig2data(ldaVisualization)))
+  # print(type(json.dumps(fig2data(ldaVisualization), cls=NumpyEncoder)))
+  print(type(fig2data(ldaVisualization).tolist()))
+  print(type(fig2data(ldaVisualization).tolist()[0]))
+
+  tester = fig2data(ldaVisualization)
+  print(tester.shape)
+  print(tester)
+
+  print(createParsableJSONResponse({
+    'topicGraphs': fig2data(ldaVisualization).tolist(),
+    'wordCloud': 69
+  }))
 
   return createParsableJSONResponse({
-    'topicGraphs': json.dumps(fig2data(ldaVisualization), cls=NumpyEncoder),
+    'topicGraphs': fig2data(ldaVisualization).tolist(),
     'wordCloud': 69
   })
 
