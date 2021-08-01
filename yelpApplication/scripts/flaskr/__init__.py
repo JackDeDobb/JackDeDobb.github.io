@@ -1,3 +1,4 @@
+import base64
 import datetime
 import gensim
 import io
@@ -9,19 +10,24 @@ import nltk
 import numpy as np
 import pandas as pd
 import pickle
+import PIL
 import re
 import os
 import requests
 import time
 from base64 import encodebytes
 from collections import Counter
-from flask import Flask, jsonify, make_response, Response, request
+from flask import Flask, jsonify, make_response, Response, request, render_template
 from flask_cors import CORS
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from PIL import Image
 from pprint import pprint
 from wordcloud import WordCloud, STOPWORDS
+
+from tempfile import NamedTemporaryFile
+from shutil import copyfileobj
+from os import remove
 
 
 class NumpyEncoder(json.JSONEncoder):
@@ -186,6 +192,14 @@ def fig2data ( fig ):
   return buf
 
 
+from flask import send_file
+def serve_pil_image(pil_img):
+  img_io = io.BytesIO()
+  pil_img.save(img_io, 'png', quality=70)
+  img_io.seek(0)
+  return send_file(img_io, mimetype='image/png')
+
+
 @app.route('/')
 def runLDAGivenInputParameters():
   # nltk.download('stopwords') # Comment back in, if need to download stopwords
@@ -197,9 +211,37 @@ def runLDAGivenInputParameters():
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords)
   ldaVisualization = getLDAVisualizationFromDataArr(dataArrSegment, numberTopics)
 
-  # output = io.BytesIO()
-  # FigureCanvas(ldaVisualization).print_png(output)
+  # Full Script.
+  output = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(output)
   # return Response(output.getvalue(), mimetype='image/png')
+  # im = Image.open("test.jpg")
+  # im.save(output, "PNG")
+  encoded_img_data = base64.b64encode(output.getvalue())
+
+  return render_template("index.html", img_data=encoded_img_data.decode('utf-8'))
+
+
+
+
+
+
+  # tempFileObj = NamedTemporaryFile(mode='w+b',suffix='jpg')
+  # pilImage = open('/tmp/myfile.jpg','rb')
+  # copyfileobj(pilImage, tempFileObj)
+  # pilImage.close()
+  # remove('/tmp/myfile.jpg')
+  # tempFileObj.seek(0,0)
+  a = Image.frombytes('RGB', ldaVisualization.canvas.get_width_height(), ldaVisualization.canvas.tostring_rgb())
+
+  return serve_pil_image(a)
+
+
+
+
+  output = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(output)
+  return Response(output.getvalue(), mimetype='image/png')
   # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
 
 

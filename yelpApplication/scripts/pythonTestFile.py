@@ -195,9 +195,9 @@ def runLDAGivenInputParameters():
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords)
   ldaVisualization = getLDAVisualizationFromDataArr(dataArrSegment, numberTopics)
 
-  # output = io.BytesIO()
-  # FigureCanvas(ldaVisualization).print_png(output)
-  # return Response(output.getvalue(), mimetype='image/png')
+  output = io.BytesIO()
+  FigureCanvas(ldaVisualization).print_png(output)
+  return Response(output.getvalue(), mimetype='image/png')
   # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
 
 
