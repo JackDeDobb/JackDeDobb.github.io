@@ -16,12 +16,13 @@ from collections import Counter
 from flask import Flask
 from flask import request
 from flask_cors import CORS
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 from pprint import pprint
 from wordcloud import WordCloud, STOPWORDS
 
 
-
-
+matplotlib.use('Agg')
 app = Flask(__name__)
 CORS(app)
 
