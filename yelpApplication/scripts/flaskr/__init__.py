@@ -1,11 +1,25 @@
 import datetime
+import gensim
 import json
 import math
+import matplotlib
+import matplotlib.pyplot as plt
+import nltk
+import numpy as np
+import pandas as pd
+import pickle
+import re
+import os
 import requests
 import time
+from collections import Counter
 from flask import Flask
 from flask import request
 from flask_cors import CORS
+from pprint import pprint
+from wordcloud import WordCloud, STOPWORDS
+
+
 
 
 app = Flask(__name__)
@@ -51,16 +65,25 @@ def checkIfRowPassesInputConditions(inputParameters, row):
   parseDate = parseDateTimeFromString(row['date'])
 
   retBool = True
-  retBool &= (row['stars'] >= inputParameters['starRatingMin'] and row['stars'] <= inputParameters['starRatingMax'])
-  retBool &= (row['votes']['funny'] >= inputParameters['funnyVotesMin'] and row['votes']['funny'] <= inputParameters['funnyVotesMax'])
-  retBool &= (row['votes']['cool'] >= inputParameters['coolVotesMin'] and row['votes']['cool'] <= inputParameters['coolVotesMax'])
-  retBool &= (row['votes']['useful'] >= inputParameters['usefulVotesMin'] and row['votes']['useful'] <= inputParameters['usefulVotesMax'])
-  retBool &= (parseDate >= inputParameters['dateWrittenMin'] and parseDate <= inputParameters['dateWrittenMax'])
+  retBool &= (row['stars']           >= inputParameters['starRatingMin']   and  row['stars']           <= inputParameters['starRatingMax'])
+  retBool &= (row['votes']['funny']  >= inputParameters['funnyVotesMin']   and  row['votes']['funny']  <= inputParameters['funnyVotesMax'])
+  retBool &= (row['votes']['cool']   >= inputParameters['coolVotesMin']    and  row['votes']['cool']   <= inputParameters['coolVotesMax'])
+  retBool &= (row['votes']['useful'] >= inputParameters['usefulVotesMin']  and  row['votes']['useful'] <= inputParameters['usefulVotesMax'])
+  retBool &= (parseDate              >= inputParameters['dateWrittenMin']  and  parseDate              <= inputParameters['dateWrittenMax'])
 
   return retBool
 
 
-def getDataThatMatchesInputParameters(inputParameters):
+def parseAndCleanTextIntoWords(text, stopWords):
+  text = re.sub('[,\.!?]', '', text) # Remove punctuation
+  text = text.lower() # Convert words to lowercase
+  words = gensim.utils.simple_preprocess(str(text), deacc=True) # Grab words
+  words = [word for word in words if word not in stopWords] # Remove stop words
+
+  return words
+
+
+def getDataThatMatchesInputParameters(inputParameters, stopWords):
   folderLocationOfDataFiles = 'https://raw.githubusercontent.com/JackDeDobb/JackDeDobb.github.io/master/yelpApplication/data/'
   dataLocationFiles = [folderLocationOfDataFiles + 'yelp_academic_dataset_review' + '{:02d}'.format(idx) + '.json' for idx in range(0, 21)]
 
@@ -71,6 +94,7 @@ def getDataThatMatchesInputParameters(inputParameters):
     for line in textFile.split('\n'):
       jsonParsedLine = json.loads(line)
       if (checkIfRowPassesInputConditions(inputParameters, jsonParsedLine)):
+        jsonParsedLine['textProcessed'] = parseAndCleanTextIntoWords(jsonParsedLine['text'], stopWords)
         recordsThatMatch.append(jsonParsedLine)
       if (len(recordsThatMatch) >= maxRecordsToPullIn):
         break
@@ -82,10 +106,13 @@ def getDataThatMatchesInputParameters(inputParameters):
 
 @app.route('/')
 def runLDAGivenInputParameters():
+  # nltk.download('stopwords') # Comment back in, if need to download stopwords
+  stopWords = nltk.corpus.stopwords.words('english')
+  stopWords.extend(['go', 'get', 'like', 'got', 'us'])
   inputParameters = getInputParameters()
-  retVal = getDataThatMatchesInputParameters(inputParameters)
-  
-  time.sleep(1)
+
+  retVal = getDataThatMatchesInputParameters(inputParameters, stopWords)
+
   return createParsableJSONResponse(retVal)
 
 
