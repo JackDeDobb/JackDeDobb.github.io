@@ -409,4 +409,30 @@ function runLDA() {
   }
   var promiseFromBackendCall = getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
 
+
+
+  var ctx = document.getElementById('ldaTopicGraphsCanvas').getContext('2d');
+  var width = promiseFromBackendCall.topicGraphs.length;
+  var height = promiseFromBackendCall.topicGraphs[0].length;
+  var imgData = ctx.createImageData(width, height);
+  for (var i = 0; i < width; i++) {
+    for (var j = 0; j < height; j++) {
+      for (var k = 0; k < 4; k++) {
+        imgData.data[(width * i) + (height * j) + k] = promiseFromBackendCall.topicGraphs[i][j][k];
+      }
+    }
+  }
+  ctx.putImageData(imgData, 0, 0);
+
+
+
+  var ctx = document.getElementById('ldaTopicGraphsCanvas').getContext('2d');
+  var imgData = ctx.createImageData(2560, 1600);
+  for (var i = 0; i < imgData.data.length; i += 4) {
+    imgData.data[i+0] = 255;
+    imgData.data[i+1] = 0;
+    imgData.data[i+2] = 0;
+    imgData.data[i+3] = 255;
+  }
+  ctx.putImageData(imgData, 0, 0);
 }
