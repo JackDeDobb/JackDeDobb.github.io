@@ -282,7 +282,7 @@ def runLDAGivenInputParameters():
   # pilImage.close()
   # remove('/tmp/myfile.jpg')
   # tempFileObj.seek(0,0)
-  a = Image.frombytes('RGB', ldaVisualization.canvas.get_width_height(), ldaVisualization.canvas.tostring_rgb())
+  a = Image.frombytes('RGB', ldaTopicGraphsVisualization.canvas.get_width_height(), ldaTopicGraphsVisualization.canvas.tostring_rgb())
 
   return serve_pil_image(a)
 
@@ -290,13 +290,13 @@ def runLDAGivenInputParameters():
 
 
   output = io.BytesIO()
-  FigureCanvas(ldaVisualization).print_png(output)
+  FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
   return Response(output.getvalue(), mimetype='image/png')
   # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
 
 
-  # canvas = FigureCanvas(ldaVisualization)
-  # ax = ldaVisualization.gca()
+  # canvas = FigureCanvas(ldaTopicGraphsVisualization)
+  # ax = ldaTopicGraphsVisualization.gca()
   # ax.text(0.0,0.0, 'Test', fontsize=45)
   # ax.axis('off')
   # canvas.draw()       # draw the canvas, cache the renderer

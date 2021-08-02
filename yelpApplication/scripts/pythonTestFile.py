@@ -227,19 +227,6 @@ def runLDAGivenInputParameters():
   ldaTopicGraphsVisualization, ldaModel = getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics)
   ldaWordCloudVisualization = getLDAWordCloudVisualization(stopWords, ldaModel)
 
-  output = io.BytesIO()
-  FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
-  return Response(output.getvalue(), mimetype='image/png')
-  # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
-
-
-  # canvas = FigureCanvas(ldaVisualization)
-  # ax = ldaVisualization.gca()
-  # ax.text(0.0,0.0, 'Test', fontsize=45)
-  # ax.axis('off')
-  # canvas.draw()       # draw the canvas, cache the renderer
-  # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
-  # json_dump = json.dumps(image, cls=NumpyEncoder)
   outputLDATopicGraphsVisualization = io.BytesIO()
   FigureCanvas(ldaTopicGraphsVisualization).print_png(outputLDATopicGraphsVisualization)
   encodedLDATopicGraphsVisualization = base64.b64encode(outputLDATopicGraphsVisualization.getvalue()).decode('utf-8')
