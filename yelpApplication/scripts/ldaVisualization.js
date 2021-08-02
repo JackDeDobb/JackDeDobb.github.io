@@ -93,5 +93,5 @@ async function runLDA() {
   var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
 
   ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
-  ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
+  ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
 }
