@@ -3,26 +3,18 @@ import datetime
 import gensim
 import io
 import json
-import math
 import matplotlib
 import matplotlib.pyplot as plt
 import nltk
-import numpy as np
-import pandas as pd
-import pickle
-import re
 import os
+import pandas as pd
+import re
 import requests
-import time
-from base64 import encodebytes
 from collections import Counter
-from flask import Flask, jsonify, make_response, Response, request
+from flask import Flask, request
 from flask_cors import CORS
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-from PIL import Image
-from pprint import pprint
-from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud
 
 
 matplotlib.use('Agg')
