@@ -331,9 +331,6 @@ def runLDAGivenInputParameters():
   # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
   # json_dump = json.dumps(image, cls=NumpyEncoder)
 
-  outputLDAVisualization = io.BytesIO()
-  FigureCanvas(ldaTopicGraphsVisualization).print_png(outputLDAVisualization)
-  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('utf-8')
   outputLDAWordCloudVisualization = io.BytesIO()
   FigureCanvas(ldaWordCloudVisualization).print_png(outputLDAWordCloudVisualization)
   encodedLDAWordCloudVisualization = base64.b64encode(outputLDAWordCloudVisualization.getvalue()).decode('utf-8')

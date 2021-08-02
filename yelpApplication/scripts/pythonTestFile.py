@@ -255,20 +255,9 @@ def runLDAGivenInputParameters():
   encodedLDAWordCloudVisualization = base64.b64encode(outputLDAWordCloudVisualization.getvalue()).decode('utf-8')
 
   # output = io.BytesIO()
-  # FigureCanvas(ldaVisualization).print_png(output)
+  # FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
   # return Response(output.getvalue(), mimetype='image/png')
 
-  # output = io.BytesIO()
-  # FigureCanvas(ldaVisualization).print_png(output)
-  # return Response(output.getvalue(), mimetype='image/png')
-
-  outputLDAVisualization = io.BytesIO()
-  FigureCanvas(ldaVisualization).print_png(outputLDAVisualization)
-  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('ascii')
-  print(type(encodedLDAVisualization.encode('ascii')))
-  decodedLDAVisualization = base64.b64decode(encodedLDAVisualization.encode('ascii'))
-  print(encodedLDAVisualization.encode('ascii')[:300])
-  print(base64.b64decode(encodedLDAVisualization.encode('ascii'))[:300])
   # image = Image.open(io.BytesIO(decodedLDAVisualization))
   # image.show()
 
