@@ -117,7 +117,7 @@ def runLDA(dataArrSegment, numberTopics):
   return [ldaModel, dataWords]
 
 
-def visualizeLDA(ldaModel, dataWords):
+def visualizeLDATopicGraphs(ldaModel, dataWords):
   topics = ldaModel.show_topics(formatted=False)
   dataWordsFlattened = [word for wordList in dataWords for word in wordList]
   counter = Counter(dataWordsFlattened)
@@ -153,11 +153,67 @@ def visualizeLDA(ldaModel, dataWords):
   return fig
 
 
-def getLDAVisualizationFromDataArr(dataArrSegment, numberTopics):
+def getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics):
   ldaModel, dataWords = runLDA(dataArrSegment, numberTopics)
-  ldaVisualization = visualizeLDA(ldaModel, dataWords)
+  ldaVisualization = visualizeLDATopicGraphs(ldaModel, dataWords)
 
-  return ldaVisualization
+  return [ldaVisualization, ldaModel]
+
+
+def getWordCloud(stopWords, ldaModel):
+  colors = [color for _, color in matplotlib.colors.TABLEAU_COLORS.items()]  # more colors: 'mcolors.XKCD_COLORS'
+  topics = ldaModel.show_topics(formatted=False)
+
+  topicsListOfSetsOfWords = []
+  for wordList in topics:
+    topicsListOfSetsOfWords.append(set([x[0] for x in wordList[1]]))
+
+  def colorFunction(word, font_size, position, orientation, font_path, random_state):
+    for innerIdx, setOfWords in enumerate(topicsListOfSetsOfWords):
+      if (word in setOfWords):
+        return colors[innerIdx]
+
+  cloud = WordCloud(stopwords=stopWords,
+                    background_color='white',
+                    width=2500,
+                    height=1800,
+                    max_words=200,
+                    colormap='tab10',
+                    color_func=colorFunction,
+                    prefer_horizontal=1.0)
+
+  cloudDict = {}
+  for wordAndImportance in topics:
+    for word, importance in wordAndImportance[1]:
+      if (word not in cloudDict):
+        cloudDict[word] = importance
+
+  cloud.generate_from_frequencies(cloudDict, max_font_size=300)
+
+  return cloud
+
+
+def getLDAWordCloudVisualization(stopWords, ldaModel):
+  cloud1 = getWordCloud(stopWords, ldaModel)
+
+  fig, axes = plt.subplots(1, 2, figsize=(100, 100), sharex=True, sharey=True)
+
+  fig.add_subplot(axes.flatten()[0])
+  plt.gca().imshow(cloud1)
+  plt.gca().set_title('Positive Word Cloud', fontdict=dict(size=160))
+  plt.gca().axis('off')
+
+  fig.add_subplot(axes.flatten()[1])
+  plt.gca().imshow(cloud1)
+  plt.gca().set_title('Negative Word Cloud', fontdict=dict(size=160))
+  plt.gca().axis('off')
+
+  plt.subplots_adjust(wspace=0, hspace=0)
+  plt.axis('off')
+  plt.margins(x=0, y=0)
+  plt.tight_layout()
+
+  return fig
 
 
 def runLDAGivenInputParameters():
@@ -168,10 +224,11 @@ def runLDAGivenInputParameters():
   numberTopics = 9
 
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords)
-  ldaVisualization = getLDAVisualizationFromDataArr(dataArrSegment, numberTopics)
+  ldaTopicGraphsVisualization, ldaModel = getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics)
+  ldaWordCloudVisualization = getLDAWordCloudVisualization(stopWords, ldaModel)
 
   output = io.BytesIO()
-  FigureCanvas(ldaVisualization).print_png(output)
+  FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
   return Response(output.getvalue(), mimetype='image/png')
   # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
 
@@ -183,14 +240,17 @@ def runLDAGivenInputParameters():
   # canvas.draw()       # draw the canvas, cache the renderer
   # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
   # json_dump = json.dumps(image, cls=NumpyEncoder)
+  outputLDATopicGraphsVisualization = io.BytesIO()
+  FigureCanvas(ldaTopicGraphsVisualization).print_png(outputLDATopicGraphsVisualization)
+  encodedLDATopicGraphsVisualization = base64.b64encode(outputLDATopicGraphsVisualization.getvalue()).decode('utf-8')
 
-  outputLDAVisualization = io.BytesIO()
-  FigureCanvas(ldaVisualization).print_png(outputLDAVisualization)
-  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('utf-8')
+  outputLDAWordCloudVisualization = io.BytesIO()
+  FigureCanvas(ldaWordCloudVisualization).print_png(outputLDAWordCloudVisualization)
+  encodedLDAWordCloudVisualization = base64.b64encode(outputLDAWordCloudVisualization.getvalue()).decode('utf-8')
 
   return createParsableJSONResponse({
-    'topicGraphs': encodedLDAVisualization,
-    'wordCloud': 69
+    'topicGraphs': encodedLDATopicGraphsVisualization,
+    'wordCloud': encodedLDAWordCloudVisualization
   })
 
 
