@@ -109,19 +109,21 @@ async function runLDA() {
   };
 
 
-  ldaTopicGraphs.src = '';
-  ldaWordCloud.src   = '';
+  if (functionProgressIdx == 0) {
+    ldaTopicGraphs.src = '';
+    ldaWordCloud.src   = '';
 
 
-  var progressBarElement = document.getElementById('loadingProgressBar');
-  progressBarElement.style.width = 1 + '%';
-  beginMoveProgressBar(progressBarElement)
-  var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
-  clearInterval(interval);
-  functionProgressIdx = 0;
-  progressBarElement.style.width = 100 + '%';
+    var progressBarElement = document.getElementById('loadingProgressBar');
+    progressBarElement.style.width = 1 + '%';
+    beginMoveProgressBar(progressBarElement)
+    var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
+    clearInterval(interval);
+    functionProgressIdx = 0;
+    progressBarElement.style.width = 100 + '%';
 
 
-  ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
-  ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
+    ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
+    ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
+  }
 }
