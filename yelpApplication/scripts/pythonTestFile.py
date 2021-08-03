@@ -186,18 +186,12 @@ def getWordCloud(stopWords, ldaModel):
 
 
 def getLDAWordCloudVisualization(stopWords, ldaModel):
-  cloud1 = getWordCloud(stopWords, ldaModel)
+  wordCloud = getWordCloud(stopWords, ldaModel)
 
-  fig, axes = plt.subplots(1, 2, figsize=(100, 100), sharex=True, sharey=True)
+  fig, ax = plt.subplots(1, 1, figsize=(100, 100), sharex=True, sharey=True)
 
-  fig.add_subplot(axes.flatten()[0])
-  plt.gca().imshow(cloud1)
-  plt.gca().set_title('Positive Word Cloud', fontdict=dict(size=160))
-  plt.gca().axis('off')
-
-  fig.add_subplot(axes.flatten()[1])
-  plt.gca().imshow(cloud1)
-  plt.gca().set_title('Negative Word Cloud', fontdict=dict(size=160))
+  fig.add_subplot(ax)
+  plt.gca().imshow(wordCloud)
   plt.gca().axis('off')
 
   plt.subplots_adjust(wspace=0, hspace=0)
