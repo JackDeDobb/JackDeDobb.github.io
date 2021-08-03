@@ -81,9 +81,9 @@ function beginMoveProgressBar() {
     functionProgressIdx = 1;
     var elem = document.getElementById('loadingProgressBar');
     var width = 1;
-    var id = setInterval(frame, 200);
+    var id = setInterval(frame, 600);
     function frame() {
-      if (width >= 80) {
+      if (width >= 100) {
         clearInterval(id);
         functionProgressIdx = 0;
       } else {
