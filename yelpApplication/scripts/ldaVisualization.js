@@ -116,7 +116,7 @@ async function runLDA() {
 
     var progressBarElement = document.getElementById('loadingProgressBar');
     progressBarElement.style.width = 1 + '%';
-    beginMoveProgressBar(progressBarElement, 1000);
+    beginMoveProgressBar(progressBarElement, 4000);
     var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
     clearInterval(interval);
     functionProgressIdx = 0;

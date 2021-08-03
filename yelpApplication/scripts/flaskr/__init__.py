@@ -83,7 +83,8 @@ def getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPu
   dataLocationFiles = [folderLocationOfDataFiles + 'yelp_academic_dataset_review' + '{:02d}'.format(idx) + '.json' for idx in range(0, 21)]
 
   recordsThatMatch = []
-  for dataLocationFile in dataLocationFiles:
+  for dataLocationFile, idx in enumerate(dataLocationFiles):
+    print(idx)
     textFile = requests.get(dataLocationFile).text
     for line in textFile.split('\n'):
       try:
