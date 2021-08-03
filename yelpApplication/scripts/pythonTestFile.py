@@ -77,12 +77,11 @@ def parseAndCleanTextIntoWords(text, stopWords):
   return words
 
 
-def getDataThatMatchesInputParameters(inputParameters, stopWords):
+def getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPullIn):
   scriptDirectory = os.path.dirname(os.path.realpath(__file__))
   folderLocationOfDataFiles = scriptDirectory + '/../data/'
   dataLocationFiles = [folderLocationOfDataFiles + 'yelp_academic_dataset_review' + '{:02d}'.format(idx) + '.json' for idx in range(0, 21)]
 
-  maxRecordsToPullIn = 10
   recordsThatMatch = []
   for dataLocationFile in dataLocationFiles:
     textFile = open(dataLocationFile)
@@ -208,8 +207,9 @@ def runLDAGivenInputParameters():
   stopWords.extend(['go', 'get', 'like', 'got', 'us'])
   inputParameters = getInputParameters()
   numberTopics = 9
+  maxRecordsToPullIn = 1000
 
-  dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords)
+  dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPullIn)
   ldaTopicGraphsVisualization, ldaModel = getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics)
   ldaWordCloudVisualization = getLDAWordCloudVisualization(stopWords, ldaModel)
 
