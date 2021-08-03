@@ -77,11 +77,11 @@ function addRowsToExampleReviewsTable(tableReference) {
 
 var functionProgressIdx = 0;
 var interval;
-function beginMoveProgressBar(progressBarElement) {
+function beginMoveProgressBar(progressBarElement, speed) {
   if (functionProgressIdx == 0) {
     functionProgressIdx = 1;
     var width = 1;
-    interval = setInterval(frame, 600);
+    interval = setInterval(frame, speed);
     function frame() {
       if (width >= 100) {
         clearInterval(interval);
@@ -116,7 +116,7 @@ async function runLDA() {
 
     var progressBarElement = document.getElementById('loadingProgressBar');
     progressBarElement.style.width = 1 + '%';
-    beginMoveProgressBar(progressBarElement)
+    beginMoveProgressBar(progressBarElement, 5000);
     var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
     clearInterval(interval);
     functionProgressIdx = 0;
