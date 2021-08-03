@@ -75,6 +75,23 @@ function addRowsToExampleReviewsTable(tableReference) {
   });
 }
 
+var functionProgressIdx = 0;
+function beginMoveProgressBar() {
+  if (functionProgressIdx == 0) {
+    functionProgressIdx = 1;
+    var elem = document.getElementById('loadingProgressBar');
+    var width = 1;
+    var id = setInterval(frame, 200);
+    function frame() {
+      if (width >= 80) {
+        clearInterval(id);
+        functionProgressIdx = 0;
+      } else {
+        elem.style.width = ++width + '%';
+      }
+    }
+  }
+}
 
 async function runLDA() {
   var urlOfHostedBackendPythonCode = 'http://127.0.0.1:5000';
@@ -90,6 +107,7 @@ async function runLDA() {
     'dateWrittenMin': dateWrittenMin.value,
     'dateWrittenMax': dateWrittenMax.value,
   };
+  beginMoveProgressBar()
   var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
 
   ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
