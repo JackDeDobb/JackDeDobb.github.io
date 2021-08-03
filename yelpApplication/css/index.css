@@ -38,7 +38,7 @@ img {
 }
 
 #loadingProgressBar {
-  width: 1%;
+  width: 0%;
   height: 30px;
   background-color: green;
 }
