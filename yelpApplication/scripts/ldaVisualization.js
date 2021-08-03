@@ -107,11 +107,17 @@ async function runLDA() {
     'dateWrittenMax': dateWrittenMax.value,
   };
 
+
+  ldaTopicGraphs.src = '';
+  ldaWordCloud.src   = '';
+
+
   var progressBarElement = document.getElementById('loadingProgressBar');
   progressBarElement.style.width = 1 + '%';
   beginMoveProgressBar(progressBarElement)
   var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
   progressBarElement.style.width = 100 + '%';
+
 
   ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
   ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
