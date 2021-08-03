@@ -76,10 +76,9 @@ function addRowsToExampleReviewsTable(tableReference) {
 }
 
 var functionProgressIdx = 0;
-function beginMoveProgressBar() {
+function beginMoveProgressBar(progressBarElement) {
   if (functionProgressIdx == 0) {
     functionProgressIdx = 1;
-    var elem = document.getElementById('loadingProgressBar');
     var width = 1;
     var id = setInterval(frame, 600);
     function frame() {
@@ -87,7 +86,7 @@ function beginMoveProgressBar() {
         clearInterval(id);
         functionProgressIdx = 0;
       } else {
-        elem.style.width = ++width + '%';
+        progressBarElement.style.width = ++width + '%';
       }
     }
   }
@@ -107,8 +106,12 @@ async function runLDA() {
     'dateWrittenMin': dateWrittenMin.value,
     'dateWrittenMax': dateWrittenMax.value,
   };
-  beginMoveProgressBar()
+
+  var progressBarElement = document.getElementById('loadingProgressBar');
+  progressBarElement.style.width = 1 + '%';
+  beginMoveProgressBar(progressBarElement)
   var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
+  progressBarElement.style.width = 100 + '%';
 
   ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
   ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
