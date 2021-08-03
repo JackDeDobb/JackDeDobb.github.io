@@ -76,14 +76,15 @@ function addRowsToExampleReviewsTable(tableReference) {
 }
 
 var functionProgressIdx = 0;
+var interval;
 function beginMoveProgressBar(progressBarElement) {
   if (functionProgressIdx == 0) {
     functionProgressIdx = 1;
     var width = 1;
-    var id = setInterval(frame, 600);
+    interval = setInterval(frame, 600);
     function frame() {
       if (width >= 100) {
-        clearInterval(id);
+        clearInterval(interval);
         functionProgressIdx = 0;
       } else {
         progressBarElement.style.width = ++width + '%';
@@ -116,6 +117,8 @@ async function runLDA() {
   progressBarElement.style.width = 1 + '%';
   beginMoveProgressBar(progressBarElement)
   var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
+  clearInterval(interval);
+  functionProgressIdx = 0;
   progressBarElement.style.width = 100 + '%';
 
 
