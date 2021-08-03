@@ -31,3 +31,14 @@ img {
   text-align: left;
   color: black;
 }
+
+#loadingProgress {
+  width: 100%;
+  background-color: grey;
+}
+
+#loadingProgressBar {
+  width: 1%;
+  height: 30px;
+  background-color: green;
+}
