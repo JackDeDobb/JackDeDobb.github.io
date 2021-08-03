@@ -86,10 +86,13 @@ def getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPu
   for dataLocationFile in dataLocationFiles:
     textFile = requests.get(dataLocationFile).text
     for line in textFile.split('\n'):
-      jsonParsedLine = json.loads(line)
-      if (checkIfRowPassesInputConditions(inputParameters, jsonParsedLine)):
-        jsonParsedLine['textProcessed'] = parseAndCleanTextIntoWords(jsonParsedLine['text'], stopWords)
-        recordsThatMatch.append(jsonParsedLine)
+      try:
+        jsonParsedLine = json.loads(line)
+        if (checkIfRowPassesInputConditions(inputParameters, jsonParsedLine)):
+          jsonParsedLine['textProcessed'] = parseAndCleanTextIntoWords(jsonParsedLine['text'], stopWords)
+          recordsThatMatch.append(jsonParsedLine)
+      except:
+        pass
       if (len(recordsThatMatch) >= maxRecordsToPullIn):
         break
     if (len(recordsThatMatch) >= maxRecordsToPullIn):
@@ -208,7 +211,7 @@ def runLDAGivenInputParameters():
   stopWords.extend(['go', 'get', 'like', 'got', 'us'])
   inputParameters = getInputParameters()
   numberTopics = 9
-  maxRecordsToPullIn = 5000
+  maxRecordsToPullIn = 400
 
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPullIn)
   ldaTopicGraphsVisualization, ldaModel = getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics)
