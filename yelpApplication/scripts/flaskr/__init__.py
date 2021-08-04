@@ -85,9 +85,9 @@ def getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPu
 
   recordsThatMatch = []
   for idx, dataLocationFile, in enumerate(dataLocationFiles[:5]):
-    print('Starting to load file index: ' + idx)
+    print('Starting to load file index: ' + str(idx))
     textFile = requests.get(dataLocationFile).text
-    print('Finished looading file index: ' + idx)
+    print('Finished looading file index: ' + str(idx))
     for line in textFile.split('\n'):
       try:
         jsonParsedLine = json.loads(line)
