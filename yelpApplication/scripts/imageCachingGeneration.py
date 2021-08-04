@@ -232,7 +232,7 @@ if __name__ == '__main__':
   scriptDirectory = os.path.dirname(os.path.realpath(__file__))
   maxRecordsToPullIn = 25
 
-  totalLoopsOverEstimation = 5 * 5 * 4 * 4 * 4
+  totalLoopsOverEstimation = (15 - 1) * 3 * 3 * 3
   loopCount = 0
   start = current_milli_time()
   print(totalLoopsOverEstimation)
