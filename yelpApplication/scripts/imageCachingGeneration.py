@@ -236,9 +236,9 @@ if __name__ == '__main__':
   loopCount = 0
   start = current_milli_time()
   print(totalLoopsOverEstimation)
-  for starRatingMin in range(1, 6):
-    for starRatingMax in range(starRatingMin, 6):
-      for funnyVotesMin in range(0, 25, 5):
+  for starRatingMin in range(1, 2):
+    for starRatingMax in range(starRatingMin, 2):
+      for funnyVotesMin in range(10, 25, 5):
         for coolVotesMin in range(0, 25, 5):
           for usefulVotesMin in range(0, 25, 5):
             inputParameters = {
@@ -264,3 +264,4 @@ if __name__ == '__main__':
             loopCount += 1
             print('Done with: ' + '_'.join([k + '=' + str(inputParameters[k]) for k in inputParameters]))
             print('Percentage Done: ' + str((loopCount / totalLoopsOverEstimation) * 100) + '%. Total time elapsed: ' + str((current_milli_time() - start) / (60 * 1000)) + ' minutes. Estimated time remaining: ' + str(((current_milli_time() - start) * (1 / (loopCount / totalLoopsOverEstimation))) / (3600 * 1000)) + ' hours.')
+            print()
