@@ -11,6 +11,7 @@ import os
 import pandas as pd
 import re
 import requests
+import time
 from collections import Counter
 from flask import Flask, request
 from flask_cors import CORS
@@ -109,6 +110,8 @@ def runLDA(dataArrSegment, numberTopics):
 
 
 def visualizeLDATopicGraphs(ldaModel, dataWords):
+  topicMultiplier = 750
+  contributionMultiplier = 6
   topics = ldaModel.show_topics(formatted=False)
   dataWordsFlattened = [word for wordList in dataWords for word in wordList]
   counter = Counter(dataWordsFlattened)
@@ -129,8 +132,8 @@ def visualizeLDATopicGraphs(ldaModel, dataWords):
     axis.tick_params(axis='y', left=False)
     axis.set_xticklabels(df.loc[df.topic==idx, 'word'], rotation=30, horizontalalignment='right')
 
-    axis.set_ylim(0, 1.2 * maxWordCount)
-    axis.bar(x='word', height='wordCount', data=df.loc[df.topic == idx, :], color=colors[idx], width=0.5, alpha=0.3, label='Word Count')
+    axis.set_ylim(0, 1.2 * maxWordCount * topicMultiplier)
+    axis.bar(x='word', height='wordCount', data=df.loc[df.topic == idx, :] * topicMultiplier, color=colors[idx], width=0.5, alpha=0.3, label='Word Count')
     axis.legend(loc='upper left')
 
     twinAxis = axis.twinx()
@@ -201,12 +204,11 @@ def getLDAWordCloudVisualization(stopWords, ldaModel):
   return fig
 
 
-def runLDAGivenInputParameters(inputParameters):
+def runLDAGivenInputParameters(inputParameters, maxRecordsToPullIn):
   # nltk.download('stopwords') # Comment back in, if need to download stopwords
   stopWords = nltk.corpus.stopwords.words('english')
   stopWords.extend(['go', 'get', 'like', 'got', 'us'])
   numberTopics = 9
-  maxRecordsToPullIn = 10
 
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPullIn)
 
@@ -224,12 +226,11 @@ def runLDAGivenInputParameters(inputParameters):
 
 
 if __name__ == '__main__':
-  import time
-
   def current_milli_time():
     return round(time.time() * 1000)
 
   scriptDirectory = os.path.dirname(os.path.realpath(__file__))
+  maxRecordsToPullIn = 25
 
   totalLoopsOverEstimation = 5 * 5 * 4 * 4 * 4
   loopCount = 0
@@ -250,7 +251,7 @@ if __name__ == '__main__':
               'usefulVotesMin': usefulVotesMin,
               'usefulVotesMax': math.inf,
             }
-            ldaTopicGraphsVisualization, ldaWordCloudVisualization = runLDAGivenInputParameters(inputParameters)
+            ldaTopicGraphsVisualization, ldaWordCloudVisualization = runLDAGivenInputParameters(inputParameters, maxRecordsToPullIn)
             visualizationDirectory = scriptDirectory + '/../images/cachingImages/' +  '_'.join([k + '=' + str(inputParameters[k]) for k in inputParameters]) + '/'
             if (not os.path.isdir(visualizationDirectory)):
               os.makedirs(visualizationDirectory)
