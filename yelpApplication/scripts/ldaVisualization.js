@@ -132,7 +132,7 @@ async function runLDA() {
         ldaWordCloud.src   = '/yelpApplicatioon/images/no-results-found.jpg';
       } else {
         ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
-        ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;f
+        ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
       }
     }
 
