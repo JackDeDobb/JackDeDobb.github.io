@@ -128,8 +128,8 @@ async function runLDA() {
     if (!hasErrored) {
       if ('noDataMatchingQuery' in promiseFromBackendCall) {
         progressBarElement.style.backgroundColor = 'yellow';
-        ldaTopicGraphs.src = '/yelpApplicatioon/images/no-results-found.jpg';
-        ldaWordCloud.src   = '/yelpApplicatioon/images/no-results-found.jpg';
+        ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
+        ldaWordCloud.src   = '/yelpApplication/images/no-results-found.jpg';
       } else {
         ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
         ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
