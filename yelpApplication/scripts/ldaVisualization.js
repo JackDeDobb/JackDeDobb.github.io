@@ -114,6 +114,7 @@ async function runLDA() {
     ldaWordCloud.src   = '';
 
     var progressBarElement = document.getElementById('loadingProgressBar');
+    progressBarElement.style.backgroundColor = 'green';
     progressBarElement.style.width = 1 + '%';
     beginMoveProgressBar(progressBarElement, 4000);
     var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters)
@@ -121,7 +122,7 @@ async function runLDA() {
       ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
       ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
     }).catch(function(err) {
-      console.log('sdfsdfsdfsdfds')
+      progressBarElement.style.backgroundColor = 'red';
     }).finally(function(x) {
       clearInterval(interval);
       functionProgressIdx = 0;
