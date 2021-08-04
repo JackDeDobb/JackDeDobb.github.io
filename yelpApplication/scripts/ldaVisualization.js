@@ -113,17 +113,19 @@ async function runLDA() {
     ldaTopicGraphs.src = '';
     ldaWordCloud.src   = '';
 
-
     var progressBarElement = document.getElementById('loadingProgressBar');
     progressBarElement.style.width = 1 + '%';
     beginMoveProgressBar(progressBarElement, 4000);
-    var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters);
-    clearInterval(interval);
-    functionProgressIdx = 0;
-    progressBarElement.style.width = 100 + '%';
-
-
-    ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
-    ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
+    var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters)
+    .then(function(x) {
+      ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
+      ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
+    }).catch(function(err) {
+      console.log('sdfsdfsdfsdfds')
+    }).finally(function(x) {
+      clearInterval(interval);
+      functionProgressIdx = 0;
+      progressBarElement.style.width = 100 + '%';
+    });
   }
 }
