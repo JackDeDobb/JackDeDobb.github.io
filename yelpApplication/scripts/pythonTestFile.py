@@ -3,6 +3,7 @@ import datetime
 import gensim
 import io
 import json
+import math
 import matplotlib
 import matplotlib.pyplot as plt
 import nltk
@@ -45,11 +46,11 @@ def getInputParameters():
     'starRatingMin':  1,
     'starRatingMax':  5,
     'funnyVotesMin':  0,
-    'funnyVotesMax':  999999999, # TODO: Flip back to Infinity
+    'funnyVotesMax':  math.inf,
     'coolVotesMin':   0,
-    'coolVotesMax':   999999999, # TODO: Flip back to Infinity
+    'coolVotesMax':   math.inf,
     'usefulVotesMin': 0,
-    'usefulVotesMax': 999999999, # TODO: Flip back to Infinity
+    'usefulVotesMax': math.inf,
     'dateWrittenMin': datetime.datetime(2004, 6, 1),
     'dateWrittenMax': datetime.datetime.now()
   }
@@ -146,9 +147,9 @@ def visualizeLDATopicGraphs(ldaModel, dataWords):
 
 def getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics):
   ldaModel, dataWords = runLDA(dataArrSegment, numberTopics)
-  ldaVisualization = visualizeLDATopicGraphs(ldaModel, dataWords)
+  ldaTopicGraphsVisualization = visualizeLDATopicGraphs(ldaModel, dataWords)
 
-  return [ldaVisualization, ldaModel]
+  return [ldaTopicGraphsVisualization, ldaModel]
 
 
 def getWordCloud(stopWords, ldaModel):
@@ -210,6 +211,12 @@ def runLDAGivenInputParameters():
   maxRecordsToPullIn = 1000
 
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPullIn)
+
+  if (len(dataArrSegment) == 0):
+    return createParsableJSONResponse({
+      'noDataMatchingQuery': 'noDataMatchingQuery'
+    })
+
   ldaTopicGraphsVisualization, ldaModel = getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics)
   ldaWordCloudVisualization = getLDAWordCloudVisualization(stopWords, ldaModel)
 
