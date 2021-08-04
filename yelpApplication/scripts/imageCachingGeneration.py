@@ -237,10 +237,10 @@ if __name__ == '__main__':
   start = current_milli_time()
   print(totalLoopsOverEstimation)
   for starRatingMin in range(1, 2):
-    for starRatingMax in range(starRatingMin, 2):
-      for funnyVotesMin in range(10, 25, 5):
-        for coolVotesMin in range(0, 25, 5):
-          for usefulVotesMin in range(0, 25, 5):
+    for starRatingMax in range(starRatingMin + 1, 6):
+      for funnyVotesMin in [0, 5, 15]:
+        for coolVotesMin in [0, 5, 15]:
+          for usefulVotesMin in [0, 5, 15]:
             inputParameters = {
               'starRatingMin':  starRatingMin,
               'starRatingMax':  starRatingMax,
