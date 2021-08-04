@@ -116,17 +116,22 @@ async function runLDA() {
     var progressBarElement = document.getElementById('loadingProgressBar');
     progressBarElement.style.backgroundColor = 'green';
     progressBarElement.style.width = 1 + '%';
+    var hasErrored = false;
     beginMoveProgressBar(progressBarElement, 4000);
     var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters)
-    .then(function(x) {
+    .catch(function(err) {
+      hasErrored = true;
+      progressBarElement.style.backgroundColor = 'red';
+    });
+
+
+    if (!hasErrored) {
       ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
       ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
-    }).catch(function(err) {
-      progressBarElement.style.backgroundColor = 'red';
-    }).finally(function(x) {
-      clearInterval(interval);
-      functionProgressIdx = 0;
-      progressBarElement.style.width = 100 + '%';
-    });
+    }
+
+    clearInterval(interval);
+    functionProgressIdx = 0;
+    progressBarElement.style.width = 100 + '%';
   }
 }
