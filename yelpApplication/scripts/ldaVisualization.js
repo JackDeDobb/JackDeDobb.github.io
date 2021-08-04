@@ -94,7 +94,7 @@ function beginMoveProgressBar(progressBarElement, speed) {
 }
 
 async function runLDA() {
-  var urlOfHostedBackendPythonCode = 'http://127.0.0.1:5000';
+  var urlOfHostedBackendPythonCode = 'https://yelp-application-lda.herokuapp.com';
   var jsonRequestParameters = {
     'starRatingMin':  starRatingMin.value,
     'starRatingMax':  starRatingMax.value,
