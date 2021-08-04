@@ -215,6 +215,12 @@ def runLDAGivenInputParameters():
   maxRecordsToPullIn = 400
 
   dataArrSegment = getDataThatMatchesInputParameters(inputParameters, stopWords, maxRecordsToPullIn)
+
+  if (len(dataArrSegment) == 0):
+    return createParsableJSONResponse({
+      'noDataMatchingQuery': 'noDataMatchingQuery'
+    })
+
   ldaTopicGraphsVisualization, ldaModel = getLDATopicGraphsVisualizationFromDataArr(dataArrSegment, numberTopics)
   ldaWordCloudVisualization = getLDAWordCloudVisualization(stopWords, ldaModel)
 

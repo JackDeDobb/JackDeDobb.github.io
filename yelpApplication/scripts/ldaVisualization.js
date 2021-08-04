@@ -126,8 +126,13 @@ async function runLDA() {
 
 
     if (!hasErrored) {
-      ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
-      ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
+      if ('noDataMatchingQuery' in promiseFromBackendCall) {
+        ldaTopicGraphs.src = '/yelpApplicatioon/images/no-results-found.jpg'
+        ldaWordCloud.src   = '/yelpApplicatioon/images/no-results-found.jpg'
+      } else {
+        ldaTopicGraphs.src = 'data:image/jpeg;base64,' + promiseFromBackendCall.topicGraphs;
+        ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;f
+      }
     }
 
     clearInterval(interval);
