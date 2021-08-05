@@ -116,11 +116,17 @@ function getMatchingCachedImageDirectory(jsonRequestParameters) {
 
 function getParameters(jsonRequestParameters) {
   var dataLogicallyExists = true;
-  dataLogicallyExists &= parseInt(jsonRequestParameters['starRatingMin'])  <= parseInt(jsonRequestParameters['starRatingMax']);
-  dataLogicallyExists &= parseInt(jsonRequestParameters['funnyVotesMin'])  <= parseInt(jsonRequestParameters['funnyVotesMax']);
-  dataLogicallyExists &= parseInt(jsonRequestParameters['coolVotesMin'])   <= parseInt(jsonRequestParameters['coolVotesMax']);
-  dataLogicallyExists &= parseInt(jsonRequestParameters['usefulVotesMin']) <= parseInt(jsonRequestParameters['usefulVotesMax']);
-  dataLogicallyExists &= jsonRequestParameters['dateWrittenMin'] <= jsonRequestParameters['dateWrittenMax'];
+
+  dataLogicallyExists &= (jsonRequestParameters['starRatingMin'] != '' && jsonRequestParameters['starRatingMax'] != '')?
+                            (parseInt(jsonRequestParameters['starRatingMin'])  <= parseInt(jsonRequestParameters['starRatingMax']))  : true;
+  dataLogicallyExists &= (jsonRequestParameters['funnyVotesMin'] != '' && jsonRequestParameters['funnyVotesMax'] != '')?
+                            (parseInt(jsonRequestParameters['funnyVotesMin'])  <= parseInt(jsonRequestParameters['funnyVotesMax']))  : true;
+  dataLogicallyExists &= (jsonRequestParameters['coolVotesMin'] != '' && jsonRequestParameters['coolVotesMax'] != '')?
+                            (parseInt(jsonRequestParameters['coolVotesMin'])   <= parseInt(jsonRequestParameters['coolVotesMax']))   : true;
+  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
+                            (parseInt(jsonRequestParameters['usefulVotesMin']) <= parseInt(jsonRequestParameters['usefulVotesMax'])) : true;
+  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
+                            (jsonRequestParameters['dateWrittenMin'] <= jsonRequestParameters['dateWrittenMax'])                     : true;
 
   function findClosestCachedOffsetValue(offset) {
     var retVal = null;
