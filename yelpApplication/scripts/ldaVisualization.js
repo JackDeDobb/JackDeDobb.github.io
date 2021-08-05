@@ -116,10 +116,10 @@ function getMatchingCachedImageDirectory(jsonRequestParameters) {
 
 function getParameters(jsonRequestParameters) {
   var dataLogicallyExists = true;
-  dataLogicallyExists &= jsonRequestParameters['starRatingMin']  <= jsonRequestParameters['starRatingMax'];
-  dataLogicallyExists &= jsonRequestParameters['funnyVotesMin']  <= jsonRequestParameters['funnyVotesMax'];
-  dataLogicallyExists &= jsonRequestParameters['coolVotesMin']   <= jsonRequestParameters['coolVotesMax'];
-  dataLogicallyExists &= jsonRequestParameters['usefulVotesMin'] <= jsonRequestParameters['usefulVotesMax'];
+  dataLogicallyExists &= parseInt(jsonRequestParameters['starRatingMin'])  <= parseInt(jsonRequestParameters['starRatingMax']);
+  dataLogicallyExists &= parseInt(jsonRequestParameters['funnyVotesMin'])  <= parseInt(jsonRequestParameters['funnyVotesMax']);
+  dataLogicallyExists &= parseInt(jsonRequestParameters['coolVotesMin'])   <= parseInt(jsonRequestParameters['coolVotesMax']);
+  dataLogicallyExists &= parseInt(jsonRequestParameters['usefulVotesMin']) <= parseInt(jsonRequestParameters['usefulVotesMax']);
   dataLogicallyExists &= jsonRequestParameters['dateWrittenMin'] <= jsonRequestParameters['dateWrittenMax'];
 
   function findClosestCachedOffsetValue(offset) {
@@ -146,7 +146,7 @@ function getParameters(jsonRequestParameters) {
     'usefulVotesMax': 'inf'
   };
 
-  return [parsedResponseParameters, !dataLogicallyExists];
+  return [parsedResponseParameters, dataLogicallyExists];
 }
 
 
