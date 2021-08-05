@@ -219,6 +219,8 @@ async function runLDA() {
     try {
       var dataLogicallyExists, parsedResponseParameters;
       [parsedResponseParameters, dataLogicallyExists] = getParameters(jsonRequestParameters);
+      beginMoveProgressBar(progressBarElement, 2000);
+
       if (!dataLogicallyExists) {
         progressBarElement.style.backgroundColor = 'yellow';
         ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
