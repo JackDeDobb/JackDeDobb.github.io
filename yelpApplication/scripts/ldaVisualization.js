@@ -221,14 +221,14 @@ async function runLDA() {
       beginMoveProgressBar(progressBarElement, 200);
 
       if (!dataLogicallyExist) {
-        var timeoutForAwaitCall = (Math.random() * 3) + 3;
+        var timeoutForAwaitCall = ((Math.random() * 3) + 3) * 1000;
         await new Promise(r => setTimeout(r, timeoutForAwaitCall));
 
         progressBarElement.style.backgroundColor = 'yellow';
         ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
         ldaWordCloud.src   = '/yelpApplication/images/no-results-found.jpg';
       } else {
-        var timeoutForAwaitCall = (Math.random() * 8) + 6;
+        var timeoutForAwaitCall = ((Math.random() * 8) + 6) * 1000;
         await new Promise(r => setTimeout(r, timeoutForAwaitCall));
 
         var matchingCachedImageDirectory = getMatchingCachedImageDirectory(parsedResponseParameters);
