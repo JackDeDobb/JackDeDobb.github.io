@@ -108,9 +108,9 @@ function getMatchingCachedImageDirectory(jsonRequestParameters) {
     'usefulVotesMin',
     'usefulVotesMax'
   ];
-  var subPathDirectoryString = subPathDirectoryStringOrdering.map(x => x + '=' + jsonRequestParameters[x]).join('_');
+  var subPathDirectoryString = cachingDirectoryLocation + subPathDirectoryStringOrdering.map(x => x + '=' + jsonRequestParameters[x]).join('_');
 
-
+  return subPathDirectoryString;
 }
 
 
@@ -135,18 +135,18 @@ function getParameters(jsonRequestParameters) {
     return retVal;
   }
 
-  jsonRequestParameters = {
-    'starRatingMin':  starRatingMin.value,
-    'starRatingMax':  starRatingMax.value,
-    'funnyVotesMin':  findClosestCachedOffsetValue(funnyVotesMin.value),
+  var parsedResponseParameters = {
+    'starRatingMin':  parseInt(starRatingMin.value),
+    'starRatingMax':  parseInt(starRatingMax.value),
+    'funnyVotesMin':  findClosestCachedOffsetValue(parseInt(funnyVotesMin.value)),
     'funnyVotesMax':  'inf',
-    'coolVotesMin':   findClosestCachedOffsetValue(coolVotesMin.value),
+    'coolVotesMin':   findClosestCachedOffsetValue(parseInt(coolVotesMin.value)),
     'coolVotesMax':   'inf',
-    'usefulVotesMin': findClosestCachedOffsetValue(usefulVotesMin.value),
+    'usefulVotesMin': findClosestCachedOffsetValue(parseInt(usefulVotesMin.value)),
     'usefulVotesMax': 'inf'
   };
 
-  return [jsonRequestParameters, !dataLogicallyExists];
+  return [parsedResponseParameters, !dataLogicallyExists];
 }
 
 
@@ -200,14 +200,14 @@ async function runLDA() {
 
     // New Code below
     try {
-      var dataLogicallyExists;
-      jsonRequestParameters, dataLogicallyExists = getParameters(jsonRequestParameters);
+      var dataLogicallyExists, parsedResponseParameters;
+      [parsedResponseParameters, dataLogicallyExists] = getParameters(jsonRequestParameters);
       if (!dataLogicallyExists) {
         progressBarElement.style.backgroundColor = 'yellow';
         ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
         ldaWordCloud.src   = '/yelpApplication/images/no-results-found.jpg';
       } else {
-        var matchingCachedImageDirectory = getMatchingCachedImageDirectory(jsonRequestParameters);
+        var matchingCachedImageDirectory = getMatchingCachedImageDirectory(parsedResponseParameters);
 
         if (matchingCachedImageDirectory != null) {
           ldaTopicGraphs.src = matchingCachedImageDirectory + 'ldaTopicGraphsVisualization.jpg';
