@@ -95,6 +95,25 @@ function beginMoveProgressBar(progressBarElement, speed) {
 }
 
 
+function getMatchingCachedImageDirectory(jsonRequestParameters) {
+  var cachingDirectoryLocation = '/yelpApplication/images/cachingImages/';
+
+  var subPathDirectoryStringOrdering = [
+    'starRatingMin',
+    'starRatingMax',
+    'funnyVotesMin',
+    'funnyVotesMax',
+    'coolVotesMin',
+    'coolVotesMax',
+    'usefulVotesMin',
+    'usefulVotesMax'
+  ];
+  var subPathDirectoryString = subPathDirectoryStringOrdering.map(x => x + '=' + jsonRequestParameters[x]).join('_');
+
+
+}
+
+
 function getParameters(jsonRequestParameters) {
   var dataLogicallyExists = true;
   dataLogicallyExists &= jsonRequestParameters['starRatingMin']  <= jsonRequestParameters['starRatingMax'];
@@ -178,16 +197,30 @@ async function runLDA() {
     }
     */
 
+
     // New Code below
     try {
-      var noDataLogicallyExists;
-      jsonRequestParameters, noDataLogicallyExists = getParameters(jsonRequestParameters);
+      var dataLogicallyExists;
+      jsonRequestParameters, dataLogicallyExists = getParameters(jsonRequestParameters);
+      if (!dataLogicallyExists) {
+        progressBarElement.style.backgroundColor = 'yellow';
+        ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
+        ldaWordCloud.src   = '/yelpApplication/images/no-results-found.jpg';
+      } else {
+        var matchingCachedImageDirectory = getMatchingCachedImageDirectory(jsonRequestParameters);
 
-
+        if (matchingCachedImageDirectory != null) {
+          ldaTopicGraphs.src = matchingCachedImageDirectory + 'ldaTopicGraphsVisualization.jpg';
+          ldaWordCloud.src   = matchingCachedImageDirectory + 'ldaWordCloudVisualization.jpg';
+        } else {
+          progressBarElement.style.backgroundColor = 'yellow';
+          ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
+          ldaWordCloud.src   = '/yelpApplication/images/no-results-found.jpg';
+        }
+      }
     } catch (error) {
       progressBarElement.style.backgroundColor = 'red';
     }
-
 
 
     clearInterval(interval);
