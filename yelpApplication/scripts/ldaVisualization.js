@@ -108,7 +108,7 @@ function getMatchingCachedImageDirectory(jsonRequestParameters) {
     'usefulVotesMin',
     'usefulVotesMax'
   ];
-  var subPathDirectoryString = cachingDirectoryLocation + subPathDirectoryStringOrdering.map(x => x + '=' + jsonRequestParameters[x]).join('_');
+  var subPathDirectoryString = cachingDirectoryLocation + subPathDirectoryStringOrdering.map(x => x + '=' + jsonRequestParameters[x]).join('_') + '/';
 
   return subPathDirectoryString;
 }
@@ -226,13 +226,18 @@ async function runLDA() {
       } else {
         var matchingCachedImageDirectory = getMatchingCachedImageDirectory(parsedResponseParameters);
 
-        if (matchingCachedImageDirectory != null) {
+        try {
           ldaTopicGraphs.src = matchingCachedImageDirectory + 'ldaTopicGraphsVisualization.jpg';
-          ldaWordCloud.src   = matchingCachedImageDirectory + 'ldaWordCloudVisualization.jpg';
-        } else {
+        } catch (error) {
           progressBarElement.style.backgroundColor = 'yellow';
           ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
-          ldaWordCloud.src   = '/yelpApplication/images/no-results-found.jpg';
+        }
+
+        try {
+          ldaWordCloud.src = matchingCachedImageDirectory + 'ldaWordCloudVisualization.jpg';
+        } catch (error) {
+          progressBarElement.style.backgroundColor = 'yellow';
+          ldaWordCloud.src = '/yelpApplication/images/no-results-found.jpg';
         }
       }
     } catch (error) {
