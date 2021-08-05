@@ -115,28 +115,28 @@ function getMatchingCachedImageDirectory(jsonRequestParameters) {
 
 
 function getParameters(jsonRequestParameters) {
-  var dataLogicallyExists = true;
+  var dataLogicallyExist = true;
 
-  dataLogicallyExists &= (jsonRequestParameters['starRatingMin'] != '' && jsonRequestParameters['starRatingMax'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['starRatingMin'] != '' && jsonRequestParameters['starRatingMax'] != '')?
                             (parseInt(jsonRequestParameters['starRatingMin']) <= parseInt(jsonRequestParameters['starRatingMax'])) : true;
-  dataLogicallyExists &= (jsonRequestParameters['funnyVotesMin'] != '' && jsonRequestParameters['funnyVotesMax'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['funnyVotesMin'] != '' && jsonRequestParameters['funnyVotesMax'] != '')?
                             (parseInt(jsonRequestParameters['funnyVotesMin']) <= parseInt(jsonRequestParameters['funnyVotesMax'])) : true;
-  dataLogicallyExists &= (jsonRequestParameters['coolVotesMin'] != '' && jsonRequestParameters['coolVotesMax'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['coolVotesMin'] != '' && jsonRequestParameters['coolVotesMax'] != '')?
                             (parseInt(jsonRequestParameters['coolVotesMin']) <= parseInt(jsonRequestParameters['coolVotesMax'])) : true;
-  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
                             (parseInt(jsonRequestParameters['usefulVotesMin']) <= parseInt(jsonRequestParameters['usefulVotesMax'])) : true;
-  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
                             (jsonRequestParameters['dateWrittenMin'] <= jsonRequestParameters['dateWrittenMax']) : true;
 
-  dataLogicallyExists &= (jsonRequestParameters['starRatingMin'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['starRatingMin'] != '')?
                             (parseInt(jsonRequestParameters['starRatingMin']) <= 5) : true;
-  dataLogicallyExists &= (jsonRequestParameters['funnyVotesMin'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['funnyVotesMin'] != '')?
                             (parseInt(jsonRequestParameters['funnyVotesMin']) <= 80) : true;
-  dataLogicallyExists &= (jsonRequestParameters['coolVotesMin'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['coolVotesMin'] != '')?
                             (parseInt(jsonRequestParameters['coolVotesMin']) <= 70) : true;
-  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['usefulVotesMin'] != '')?
                             (parseInt(jsonRequestParameters['usefulVotesMin']) <= 62) : true;
-  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '')?
+  dataLogicallyExist &= (jsonRequestParameters['usefulVotesMin'] != '')?
                             (jsonRequestParameters['dateWrittenMin'] <= '2021-04-01') : true;
 
   function findClosestCachedOffsetValue(offset) {
@@ -163,7 +163,7 @@ function getParameters(jsonRequestParameters) {
     'usefulVotesMax': 'inf'
   };
 
-  return [parsedResponseParameters, dataLogicallyExists];
+  return [parsedResponseParameters, dataLogicallyExist];
 }
 
 
@@ -216,11 +216,11 @@ async function runLDA() {
 
     // New Code below
     try {
-      var dataLogicallyExists, parsedResponseParameters;
-      [parsedResponseParameters, dataLogicallyExists] = getParameters(jsonRequestParameters);
+      var dataLogicallyExist, parsedResponseParameters;
+      [parsedResponseParameters, dataLogicallyExist] = getParameters(jsonRequestParameters);
       beginMoveProgressBar(progressBarElement, 200);
 
-      if (!dataLogicallyExists) {
+      if (!dataLogicallyExist) {
         var timeoutForAwaitCall = (Math.random() * 3) + 3;
         await new Promise(r => setTimeout(r, timeoutForAwaitCall));
 
