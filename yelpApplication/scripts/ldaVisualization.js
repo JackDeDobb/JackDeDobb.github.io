@@ -228,16 +228,19 @@ async function runLDA() {
       } else {
         var matchingCachedImageDirectory = getMatchingCachedImageDirectory(parsedResponseParameters);
 
-        try {
-          ldaTopicGraphs.src = matchingCachedImageDirectory + 'ldaTopicGraphsVisualization.jpg';
-        } catch (error) {
+        var ldaTopicGraphsVisualization = await fetch(matchingCachedImageDirectory + 'ldaTopicGraphsVisualization.jpg');
+        var ldaWordCloudVisualziation =   await fetch(matchingCachedImageDirectory + 'ldaWordCloudVisualization.jpg');
+
+        if (ldaTopicGraphsVisualization.status == 200) {
+          ldaTopicGraphs.src = ldaTopicGraphsVisualization.url;
+        } else {
           progressBarElement.style.backgroundColor = 'yellow';
           ldaTopicGraphs.src = '/yelpApplication/images/no-results-found.jpg';
         }
 
-        try {
-          ldaWordCloud.src = matchingCachedImageDirectory + 'ldaWordCloudVisualization.jpg';
-        } catch (error) {
+        if (ldaWordCloudVisualziation.status == 200) {
+          ldaWordCloud.src = ldaWordCloudVisualziation.url;
+        } else {
           progressBarElement.style.backgroundColor = 'yellow';
           ldaWordCloud.src = '/yelpApplication/images/no-results-found.jpg';
         }
