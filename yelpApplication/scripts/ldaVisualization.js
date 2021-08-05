@@ -75,6 +75,7 @@ function addRowsToExampleReviewsTable(tableReference) {
   });
 }
 
+
 var functionProgressIdx = 0;
 var interval;
 function beginMoveProgressBar(progressBarElement, speed) {
@@ -92,6 +93,43 @@ function beginMoveProgressBar(progressBarElement, speed) {
     }
   }
 }
+
+
+function getParameters(jsonRequestParameters) {
+  var dataLogicallyExists = true;
+  dataLogicallyExists &= jsonRequestParameters['starRatingMin']  <= jsonRequestParameters['starRatingMax'];
+  dataLogicallyExists &= jsonRequestParameters['funnyVotesMin']  <= jsonRequestParameters['funnyVotesMax'];
+  dataLogicallyExists &= jsonRequestParameters['coolVotesMin']   <= jsonRequestParameters['coolVotesMax'];
+  dataLogicallyExists &= jsonRequestParameters['usefulVotesMin'] <= jsonRequestParameters['usefulVotesMax'];
+  dataLogicallyExists &= jsonRequestParameters['dateWrittenMin'] <= jsonRequestParameters['dateWrittenMax'];
+
+  function findClosestCachedOffsetValue(offset) {
+    var retVal = null;
+    if (offset < 5) {
+      retVal = 0;
+    } else if (offset < 15) {
+      retVal = 5;
+    } else {
+      retVal = 15;
+    }
+
+    return retVal;
+  }
+
+  jsonRequestParameters = {
+    'starRatingMin':  starRatingMin.value,
+    'starRatingMax':  starRatingMax.value,
+    'funnyVotesMin':  findClosestCachedOffsetValue(funnyVotesMin.value),
+    'funnyVotesMax':  'inf',
+    'coolVotesMin':   findClosestCachedOffsetValue(coolVotesMin.value),
+    'coolVotesMax':   'inf',
+    'usefulVotesMin': findClosestCachedOffsetValue(usefulVotesMin.value),
+    'usefulVotesMax': 'inf'
+  };
+
+  return [jsonRequestParameters, !dataLogicallyExists];
+}
+
 
 async function runLDA() {
   var urlOfHostedBackendPythonCode = 'https://yelp-application-lda.herokuapp.com';
@@ -141,6 +179,14 @@ async function runLDA() {
     */
 
     // New Code below
+    try {
+      var noDataLogicallyExists;
+      jsonRequestParameters, noDataLogicallyExists = getParameters(jsonRequestParameters);
+
+
+    } catch (error) {
+      progressBarElement.style.backgroundColor = 'red';
+    }
 
 
 
