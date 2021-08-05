@@ -118,15 +118,26 @@ function getParameters(jsonRequestParameters) {
   var dataLogicallyExists = true;
 
   dataLogicallyExists &= (jsonRequestParameters['starRatingMin'] != '' && jsonRequestParameters['starRatingMax'] != '')?
-                            (parseInt(jsonRequestParameters['starRatingMin'])  <= parseInt(jsonRequestParameters['starRatingMax']))  : true;
+                            (parseInt(jsonRequestParameters['starRatingMin']) <= parseInt(jsonRequestParameters['starRatingMax'])) : true;
   dataLogicallyExists &= (jsonRequestParameters['funnyVotesMin'] != '' && jsonRequestParameters['funnyVotesMax'] != '')?
-                            (parseInt(jsonRequestParameters['funnyVotesMin'])  <= parseInt(jsonRequestParameters['funnyVotesMax']))  : true;
+                            (parseInt(jsonRequestParameters['funnyVotesMin']) <= parseInt(jsonRequestParameters['funnyVotesMax'])) : true;
   dataLogicallyExists &= (jsonRequestParameters['coolVotesMin'] != '' && jsonRequestParameters['coolVotesMax'] != '')?
-                            (parseInt(jsonRequestParameters['coolVotesMin'])   <= parseInt(jsonRequestParameters['coolVotesMax']))   : true;
+                            (parseInt(jsonRequestParameters['coolVotesMin']) <= parseInt(jsonRequestParameters['coolVotesMax'])) : true;
   dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
                             (parseInt(jsonRequestParameters['usefulVotesMin']) <= parseInt(jsonRequestParameters['usefulVotesMax'])) : true;
   dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '' && jsonRequestParameters['usefulVotesMax'] != '')?
-                            (jsonRequestParameters['dateWrittenMin'] <= jsonRequestParameters['dateWrittenMax'])                     : true;
+                            (jsonRequestParameters['dateWrittenMin'] <= jsonRequestParameters['dateWrittenMax']) : true;
+
+  dataLogicallyExists &= (jsonRequestParameters['starRatingMin'] != '')?
+                            (parseInt(jsonRequestParameters['starRatingMin']) <= 5) : true;
+  dataLogicallyExists &= (jsonRequestParameters['funnyVotesMin'] != '')?
+                            (parseInt(jsonRequestParameters['funnyVotesMin']) <= 80) : true;
+  dataLogicallyExists &= (jsonRequestParameters['coolVotesMin'] != '')?
+                            (parseInt(jsonRequestParameters['coolVotesMin']) <= 70) : true;
+  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '')?
+                            (parseInt(jsonRequestParameters['usefulVotesMin']) <= 62) : true;
+  dataLogicallyExists &= (jsonRequestParameters['usefulVotesMin'] != '')?
+                            (jsonRequestParameters['dateWrittenMin'] <= '2021-04-01') : true;
 
   function findClosestCachedOffsetValue(offset) {
     var retVal = null;
