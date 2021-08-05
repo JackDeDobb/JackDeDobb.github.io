@@ -232,11 +232,11 @@ if __name__ == '__main__':
   scriptDirectory = os.path.dirname(os.path.realpath(__file__))
   maxRecordsToPullIn = 25
 
-  totalLoopsOverEstimation = (15 - 5) * 3 * 3 * 3
+  totalLoopsOverEstimation = (15 - 9) * 3 * 3 * 3
   loopCount = 0
   start = current_milli_time()
   print(totalLoopsOverEstimation)
-  for starRatingMin in range(2, 6):
+  for starRatingMin in range(3, 6):
     for starRatingMax in range(starRatingMin, 6):
       for funnyVotesMin in [0, 5, 15]:
         for coolVotesMin in [0, 5, 15]:
