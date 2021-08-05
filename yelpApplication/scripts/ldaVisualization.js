@@ -116,6 +116,10 @@ async function runLDA() {
     var progressBarElement = document.getElementById('loadingProgressBar');
     progressBarElement.style.backgroundColor = 'green';
     progressBarElement.style.width = 1 + '%';
+
+
+    /*
+    // Old Code below
     var hasErrored = false;
     beginMoveProgressBar(progressBarElement, 4000);
     var promiseFromBackendCall = await getResponseFromBackEnd(urlOfHostedBackendPythonCode, jsonRequestParameters)
@@ -123,7 +127,6 @@ async function runLDA() {
       hasErrored = true;
       progressBarElement.style.backgroundColor = 'red';
     });
-
 
     if (!hasErrored) {
       if ('noDataMatchingQuery' in promiseFromBackendCall) {
@@ -135,6 +138,11 @@ async function runLDA() {
         ldaWordCloud.src   = 'data:image/jpeg;base64,' + promiseFromBackendCall.wordCloud;
       }
     }
+    */
+
+    // New Code below
+
+
 
     clearInterval(interval);
     functionProgressIdx = 0;
