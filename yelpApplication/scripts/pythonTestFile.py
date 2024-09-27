@@ -202,6 +202,25 @@ def getLDAWordCloudVisualization(stopWords, ldaModel):
   return fig
 
 
+def fig2data ( fig ):
+  """
+  @brief Convert a Matplotlib figure to a 4D numpy array with RGBA channels and return it
+  @param fig a matplotlib figure
+  @return a numpy 3D array of RGBA values
+  """
+  # draw the renderer
+  fig.canvas.draw ( )
+
+  # Get the RGBA buffer from the figure
+  w,h = fig.canvas.get_width_height()
+  buf = np.frombuffer ( fig.canvas.tostring_argb(), dtype=np.uint8 )
+  buf.shape = ( w, h,4 )
+
+  # canvas.tostring_argb give pixmap in ARGB mode. Roll the ALPHA channel to have it in RGBA mode
+  buf = np.roll ( buf, 3, axis = 2 )
+  return buf
+
+
 def runLDAGivenInputParameters():
   # nltk.download('stopwords') # Comment back in, if need to download stopwords
   stopWords = nltk.corpus.stopwords.words('english')
@@ -228,9 +247,39 @@ def runLDAGivenInputParameters():
   FigureCanvas(ldaWordCloudVisualization).print_png(outputLDAWordCloudVisualization)
   encodedLDAWordCloudVisualization = base64.b64encode(outputLDAWordCloudVisualization.getvalue()).decode('utf-8')
 
+  # output = io.BytesIO()
+  # FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
+  # return Response(output.getvalue(), mimetype='image/png')
+
+  # image = Image.open(io.BytesIO(decodedLDAVisualization))
+  # image.show()
+
   return createParsableJSONResponse({
     'topicGraphs': encodedLDATopicGraphsVisualization,
     'wordCloud': encodedLDAWordCloudVisualization
+  })
+
+
+
+  img1 = Image.frombytes('RGB', ldaVisualization.canvas.get_width_height(), ldaVisualization.canvas.tostring_rgb())
+  img1.save('hererandom.png')
+  img1.show()
+
+
+
+  retTopicGraphs = fig2data(ldaVisualization)
+  print(type(retTopicGraphs))
+
+  img_w, img_h = 2560, 1600
+  # data = np.zeros((img_h, img_w, 4), dtype=np.uint8)
+  # data[100, 100] = [255, 0, 0]
+  img = Image.fromarray(retTopicGraphs, 'RGBA')
+  img.save('test.png')
+  img.show()
+
+  return createParsableJSONResponse({
+    'topicGraphs': retTopicGraphs,
+    'wordCloud': 69
   })
 
 

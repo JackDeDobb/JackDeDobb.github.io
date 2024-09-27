@@ -207,6 +207,37 @@ def getLDAWordCloudVisualization(stopWords, ldaModel):
   return fig
 
 
+def fig2data ( fig ):
+  """
+  @brief Convert a Matplotlib figure to a 4D numpy array with RGBA channels and return it
+  @param fig a matplotlib figure
+  @return a numpy 3D array of RGBA values
+  """
+  # draw the renderer
+  fig.canvas.draw ( )
+
+  # Get the RGBA buffer from the figure
+  w,h = fig.canvas.get_width_height()
+  buf = np.fromstring ( fig.canvas.tostring_argb(), dtype=np.uint8 )
+  buf.shape = ( w, h,4 )
+
+  # canvas.tostring_argb give pixmap in ARGB mode. Roll the ALPHA channel to have it in RGBA mode
+  buf = np.roll ( buf, 3, axis = 2 )
+  return buf
+
+
+def fig2img ( fig ):
+  """
+  @brief Convert a Matplotlib figure to a PIL Image in RGBA format and return it
+  @param fig a matplotlib figure
+  @return a Python Imaging Library ( PIL ) image
+  """
+  # put the figure pixmap into a numpy array
+  buf = fig2data ( fig )
+  w, h, d = buf.shape
+  return Image.fromstring( "RGBA", ( w ,h ), buf.tostring( ) )
+
+
 @app.route('/')
 def runLDAGivenInputParameters():
   # nltk.download('stopwords') # Comment back in, if need to download stopwords
@@ -229,6 +260,73 @@ def runLDAGivenInputParameters():
   outputLDATopicGraphsVisualization = io.BytesIO()
   FigureCanvas(ldaTopicGraphsVisualization).print_png(outputLDATopicGraphsVisualization)
   encodedLDATopicGraphsVisualization = base64.b64encode(outputLDATopicGraphsVisualization.getvalue()).decode('utf-8')
+
+  outputLDAVisualization = io.BytesIO()
+  FigureCanvas(ldaTopicGraphsVisualization).print_png(outputLDAVisualization)
+  encodedLDAVisualization = base64.b64encode(outputLDAVisualization.getvalue()).decode('ascii')
+  # decodedLDAVisualization = base64.b64decode(encodedLDAVisualization.encode('ascii'))
+  # image = Image.open(io.BytesIO(decodedLDAVisualization))
+  # image.show()
+
+  return createParsableJSONResponse({
+    'topicGraphs': encodedLDAVisualization,
+    'wordCloud': 69
+  })
+
+
+
+
+
+  # image = Image.open(io.BytesIO(imagesBytes))
+  # image.show()
+
+  b = createParsableJSONResponse({
+    'topicGraphs': encoded,
+    'wordCloud': 69
+  })
+
+  return b
+
+  # output = io.BytesIO()
+  # FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
+  # return Response(output.getvalue(), mimetype='image/png')
+
+  output = io.BytesIO()
+  # print(type(output))
+  FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
+  # print(type(output.getvalue()))
+  # print(output.getvalue())
+  a = Response(output.getvalue(), mimetype='image/png')
+  # print(type(a))
+
+  imagesBytes = output.getvalue()
+
+  image = Image.open(io.BytesIO(imagesBytes))
+  # image.show()
+
+  b = createParsableJSONResponse({
+    'topicGraphs': imagesBytes,
+    'wordCloud': 69
+  })
+
+  return b
+
+
+  return fig2img(ldaTopicGraphsVisualization)
+
+  # output = io.BytesIO()
+  # FigureCanvas(ldaTopicGraphsVisualization).print_png(output)
+  # return Response(output.getvalue(), mimetype='image/png')
+  # return make_response(jsonify(Response(output.getvalue(), mimetype='image/png')), 200)
+
+
+  # canvas = FigureCanvas(ldaTopicGraphsVisualization)
+  # ax = ldaTopicGraphsVisualization.gca()
+  # ax.text(0.0,0.0, 'Test', fontsize=45)
+  # ax.axis('off')
+  # canvas.draw()       # draw the canvas, cache the renderer
+  # image = np.fromstring(canvas.tostring_rgb(), dtype='uint8')
+  # json_dump = json.dumps(image, cls=NumpyEncoder)
 
   outputLDAWordCloudVisualization = io.BytesIO()
   FigureCanvas(ldaWordCloudVisualization).print_png(outputLDAWordCloudVisualization)
